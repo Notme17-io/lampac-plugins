@@ -181,9 +181,11 @@
 
     function normalizeQuality(val) {
         var text = String(val || '').toLowerCase();
+        if (/camrip|телесинк|telesync|telecine|(^|[^a-zа-яё])ts([^a-zа-яё]|$)|(^|[^а-яё])тс([^а-яё]|$)/i.test(text)) return 'TS';
         if (/2160|4k|uhd/.test(text)) return '4K';
-        if (/1080|full\s*hd|fhd|720|hd/.test(text)) return 'HD';
-        if (/480|360|sd/.test(text)) return 'SD';
+        if (/1080|full\s*hd|fhd/.test(text)) return 'FHD';
+        if (/720|(^|[^a-zа-яё])hd([^a-zа-яё]|$)/.test(text)) return 'HD';
+        if (/480|360|(^|[^a-zа-яё])sd([^a-zа-яё]|$)/.test(text)) return 'SD';
         return null;
     }
 
@@ -205,13 +207,18 @@
                 var data = typeof resp === 'string' ? JSON.parse(resp) : resp;
                 var releases = (data && data.Results) || [];
                 var maxRes = 0;
+                var isTS = false;
                 for (var i = 0; i < releases.length; i++) {
+                    var rTitle = (releases[i].Title || '').toLowerCase();
+                    if (/camrip|ts|telecine|telesync|тс/i.test(rTitle)) isTS = true;
                     var r = (releases[i].info && releases[i].info.quality) || 0;
                     if (r > maxRes) maxRes = r;
                 }
                 if (maxRes >= 2160) quality = '4K';
+                else if (maxRes >= 1080) quality = 'FHD';
                 else if (maxRes >= 720) quality = 'HD';
                 else if (maxRes > 0) quality = 'SD';
+                else if (isTS) quality = 'TS';
             } catch (e) {}
 
             if (!quality && ALLOHA_API_SERVERS.length) {
@@ -426,9 +433,9 @@
     function initStyles() {
         if (document.getElementById('cards-style-theme')) return;
         var css = 
-            '.card__clean-type{position:absolute!important;left:0.5em!important;top:-0.35em!important;z-index:10!important;padding:0.25em 0.55em!important;font-size:0.72em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.85)!important;border:1px solid rgba(255,255,255,0.15)!important;border-radius:0.35em!important;line-height:1!important;letter-spacing:0.04em!important;text-transform:uppercase!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.6)!important}\n' +
-            '.card__clean-quality{position:absolute!important;left:0!important;bottom:0!important;z-index:10!important;padding:0.22em 0.45em!important;font-size:0.85em!important;font-weight:600!important;color:#fff!important;background:rgba(0,0,0,0.7)!important;border-radius:0 0.45em 0 0.45em!important;line-height:1!important}\n' +
-            '.card__clean-votes{position:absolute!important;right:0!important;bottom:0!important;z-index:10!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:5px!important;padding:0.22em 0.45em!important;background:rgba(0,0,0,0.7)!important;border-radius:0.45em 0 0.45em 0!important;line-height:1!important}\n' +
+            '.card__clean-type{position:absolute!important;left:0.5em!important;top:-0.35em!important;z-index:10!important;padding:0.25em 0.55em!important;font-size:0.72em!important;font-weight:600!important;color:rgba(255,255,255,0.95)!important;background:rgba(0,0,0,0.75)!important;border:1px solid rgba(255,255,255,0.15)!important;border-radius:0.35em!important;line-height:1!important;letter-spacing:0.03em!important;text-transform:uppercase!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.6)!important;backdrop-filter:blur(4px)!important}\n' +
+            '.card__clean-quality{position:absolute!important;left:0!important;bottom:0!important;z-index:10!important;padding:0.22em 0.45em!important;font-size:0.85em!important;font-weight:600!important;color:#fff!important;background:rgba(0,0,0,0.7)!important;border-radius:0 0.45em 0 0.45em!important;line-height:1!important;backdrop-filter:blur(4px)!important}\n' +
+            '.card__clean-votes{position:absolute!important;right:0!important;bottom:0!important;z-index:10!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:5px!important;padding:0.22em 0.45em!important;background:rgba(0,0,0,0.7)!important;border-radius:0.45em 0 0.45em 0!important;line-height:1!important;backdrop-filter:blur(4px)!important}\n' +
             '.card__clean-votes .vote-item{display:inline-flex!important;align-items:center!important;gap:3px!important}\n' +
             '.card__clean-votes .vote-num{font-size:0.85em!important;font-weight:600!important;color:#fff!important}\n' +
             '.card__clean-votes .vote-icon{display:inline-flex!important;width:0.95em!important;height:0.95em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.9!important}\n' +
@@ -499,7 +506,7 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.0.8',
+        version: '1.0.9',
         description: 'Классический стиль карточек, значки рейтингов, качество и даты выхода серий'
     };
 
