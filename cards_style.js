@@ -183,8 +183,8 @@
         var text = String(val || '').toLowerCase();
         if (/camrip|телесинк|telesync|telecine|(^|[^a-zа-яё])ts([^a-zа-яё]|$)|(^|[^а-яё])тс([^а-яё]|$)/i.test(text)) return 'TS';
         if (/2160|4k|uhd/.test(text)) return '4K';
-        if (/1080|full\s*hd|fhd/.test(text)) return 'FHD';
-        if (/720|(^|[^a-zа-яё])hd([^a-zа-яё]|$)/.test(text)) return 'HD';
+        if (/1080|full\s*hd|fhd/.test(text)) return '1080p';
+        if (/720|(^|[^a-zа-яё])hd([^a-zа-яё]|$)/.test(text)) return '720p';
         if (/480|360|(^|[^a-zа-яё])sd([^a-zа-яё]|$)/.test(text)) return 'SD';
         return null;
     }
@@ -215,8 +215,8 @@
                     if (r > maxRes) maxRes = r;
                 }
                 if (maxRes >= 2160) quality = '4K';
-                else if (maxRes >= 1080) quality = 'FHD';
-                else if (maxRes >= 720) quality = 'HD';
+                else if (maxRes >= 1080) quality = '1080p';
+                else if (maxRes >= 720) quality = '720p';
                 else if (maxRes > 0) quality = 'SD';
                 else if (isTS) quality = 'TS';
             } catch (e) {}
@@ -296,7 +296,7 @@
         var tmdbVal = getTmdbRating(card.card_data);
         if (tmdbVal !== '0.0') {
             var tmdbEl = document.createElement('div');
-            tmdbEl.className = 'vote-item rate--tmdb';
+            tmdbEl.className = 'vote-row rate--tmdb';
             tmdbEl.innerHTML = '<span class="vote-num">' + tmdbVal + '</span><span class="vote-icon">' + CARD_TMDB_SVG + '</span>';
             wrap.appendChild(tmdbEl);
         }
@@ -305,13 +305,13 @@
             if (!document.body.contains(wrap)) return;
             if (res.kp > 0) {
                 var kpEl = document.createElement('div');
-                kpEl.className = 'vote-item rate--kp';
+                kpEl.className = 'vote-row rate--kp';
                 kpEl.innerHTML = '<span class="vote-num">' + formatRating(res.kp) + '</span><span class="vote-icon">' + CARD_KP_SVG + '</span>';
                 wrap.appendChild(kpEl);
             }
             if (res.imdb > 0) {
                 var imdbEl = document.createElement('div');
-                imdbEl.className = 'vote-item rate--imdb';
+                imdbEl.className = 'vote-row rate--imdb';
                 imdbEl.innerHTML = '<span class="vote-num">' + formatRating(res.imdb) + '</span><span class="vote-icon">' + CARD_IMDB_SVG + '</span>';
                 wrap.appendChild(imdbEl);
             }
@@ -320,7 +320,7 @@
         fetchLampaRating(card.card_data, function (lRating) {
             if (!document.body.contains(wrap) || lRating <= 0) return;
             var lEl = document.createElement('div');
-            lEl.className = 'vote-item rate--lampa';
+            lEl.className = 'vote-row rate--lampa';
             lEl.innerHTML = '<span class="vote-num">' + formatRating(lRating) + '</span><span class="vote-icon">' + CARD_LAMPA_SVG + '</span>';
             wrap.appendChild(lEl);
         });
@@ -333,17 +333,19 @@
         updateCardRating(card);
     }
 
-    function applyDetailRatingIcons(render) {
+    function applyDetailRatingIcons(render, movie) {
         var scope = $(render);
+        var rateLine = scope.find('.full-start-new__rate-line, .full-start__rate-line');
+        if (!rateLine.length) return;
+
         var map = [
             { cls: 'rate--tmdb', svg: CARD_TMDB_SVG, name: 'TMDB' },
             { cls: 'rate--imdb', svg: CARD_IMDB_SVG, name: 'IMDB' },
-            { cls: 'rate--kp', svg: CARD_KP_SVG, name: 'KP' },
-            { cls: 'rate--lampa', svg: CARD_LAMPA_SVG, name: 'LAMPA' }
+            { cls: 'rate--kp', svg: CARD_KP_SVG, name: 'KP' }
         ];
 
         map.forEach(function (item) {
-            scope.find('.' + item.cls + ', .full-start-new__rate, .full-start__rate').each(function () {
+            rateLine.find('.' + item.cls + ', .full-start-new__rate, .full-start__rate').each(function () {
                 var el = $(this);
                 if (el.hasClass(item.cls) || el.find('.' + item.cls).length || el.text().indexOf(item.name) !== -1) {
                     var target = el.find('.source--name');
@@ -360,6 +362,20 @@
                 }
             });
         });
+
+        if (movie && movie.id && !rateLine.find('.clean-detail-lampa-rate').length) {
+            fetchLampaRating(movie, function (lRating) {
+                if (lRating > 0 && !rateLine.find('.clean-detail-lampa-rate').length) {
+                    var lEl = $('<div class="full-start-new__rate full-start__rate clean-detail-lampa-rate rate--lampa">' +
+                        '<div>' + formatRating(lRating) + '</div>' +
+                        '<div class="source--name" style="display:inline-flex;opacity:0.9;color:#fff;"><span class="detail-icon-svg">' + CARD_LAMPA_SVG + '</span></div>' +
+                        '</div>');
+                    var targetInsert = rateLine.find('.full-start__status, .clean-detail-quality').first();
+                    if (targetInsert.length) lEl.insertBefore(targetInsert);
+                    else rateLine.append(lEl);
+                }
+            });
+        }
     }
 
     function formatNextEpisodeDate(dateStr) {
@@ -370,20 +386,8 @@
     }
 
     function renderNextEpisodeInfo(movie, render) {
-        if (!movie || !movie.next_episode_to_air || !render) return;
+        if (!movie || !render) return;
         var next = movie.next_episode_to_air;
-        if (!next.air_date) return;
-
-        var parts = next.air_date.split('-');
-        if (parts.length < 3) return;
-        var targetDate = new Date(parts[0], parts[1] - 1, parts[2]);
-        var now = new Date();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-        var diffTime = targetDate.getTime() - today.getTime();
-        var diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-        if (diffDays < 0) return;
-
         var details = $(render).find('.full-start-new__details, .full-start__details');
         if (!details.length) return;
 
@@ -399,15 +403,40 @@
             el.remove();
         });
 
-        var dateText = formatNextEpisodeDate(next.air_date);
-        var labelText = (diffDays === 0)
-            ? 'Следующая серия выходит сегодня: ' + dateText
-            : 'Следующая: ' + dateText + ' / Осталось дней: ' + diffDays;
+        var labelText = '';
+        if (next && next.air_date) {
+            var parts = next.air_date.split('-');
+            if (parts.length >= 3) {
+                var targetDate = new Date(parts[0], parts[1] - 1, parts[2]);
+                var now = new Date();
+                var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                var diffDays = Math.round((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                var dateText = formatNextEpisodeDate(next.air_date);
 
-        var split = $('<span class="full-start-new__split clean-next-episode-info">•</span>');
-        var item = $('<span class="clean-next-episode-info">' + labelText + '</span>');
+                if (diffDays === 0) {
+                    labelText = 'Следующая серия выходит сегодня: ' + dateText;
+                } else if (diffDays > 0) {
+                    labelText = 'Следующая: ' + dateText + ' / Осталось дней: ' + diffDays;
+                }
+            }
+        } else if (movie.last_episode_to_air && movie.last_episode_to_air.air_date) {
+            var lParts = movie.last_episode_to_air.air_date.split('-');
+            if (lParts.length >= 3) {
+                var lTarget = new Date(lParts[0], lParts[1] - 1, lParts[2]);
+                var lNow = new Date();
+                var lToday = new Date(lNow.getFullYear(), lNow.getMonth(), lNow.getDate());
+                var lDiff = Math.round((lTarget.getTime() - lToday.getTime()) / (1000 * 60 * 60 * 24));
+                if (lDiff === 0) {
+                    labelText = 'Следующая серия выходит сегодня: ' + formatNextEpisodeDate(movie.last_episode_to_air.air_date);
+                }
+            }
+        }
 
-        details.append(split).append(item);
+        if (labelText) {
+            var split = $('<span class="full-start-new__split clean-next-episode-info">•</span>');
+            var item = $('<span class="clean-next-episode-info">' + labelText + '</span>');
+            details.append(split).append(item);
+        }
     }
 
     function renderDetailQuality(movie, render) {
@@ -433,16 +462,17 @@
     function initStyles() {
         if (document.getElementById('cards-style-theme')) return;
         var css = 
-            '.card__clean-type{position:absolute!important;left:0.5em!important;top:-0.35em!important;z-index:10!important;padding:0.25em 0.55em!important;font-size:0.72em!important;font-weight:600!important;color:rgba(255,255,255,0.95)!important;background:rgba(0,0,0,0.75)!important;border:1px solid rgba(255,255,255,0.15)!important;border-radius:0.35em!important;line-height:1!important;letter-spacing:0.03em!important;text-transform:uppercase!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.6)!important;backdrop-filter:blur(4px)!important}\n' +
-            '.card__clean-quality{position:absolute!important;left:0!important;bottom:0!important;z-index:10!important;padding:0.22em 0.45em!important;font-size:0.85em!important;font-weight:600!important;color:#fff!important;background:rgba(0,0,0,0.7)!important;border-radius:0 0.45em 0 0.45em!important;line-height:1!important;backdrop-filter:blur(4px)!important}\n' +
-            '.card__clean-votes{position:absolute!important;right:0!important;bottom:0!important;z-index:10!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:5px!important;padding:0.22em 0.45em!important;background:rgba(0,0,0,0.7)!important;border-radius:0.45em 0 0.45em 0!important;line-height:1!important;backdrop-filter:blur(4px)!important}\n' +
-            '.card__clean-votes .vote-item{display:inline-flex!important;align-items:center!important;gap:3px!important}\n' +
-            '.card__clean-votes .vote-num{font-size:0.85em!important;font-weight:600!important;color:#fff!important}\n' +
-            '.card__clean-votes .vote-icon{display:inline-flex!important;width:0.95em!important;height:0.95em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.9!important}\n' +
+            '.card__clean-type{position:absolute!important;left:0.5em!important;top:-0.35em!important;z-index:10!important;padding:0.3em 0.65em!important;font-size:0.8em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;line-height:1!important;letter-spacing:0.04em!important;text-transform:uppercase!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
+            '.card__clean-quality{position:absolute!important;left:0!important;bottom:0!important;z-index:10!important;padding:0.3em 0.55em!important;font-size:0.92em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.55)!important;border-radius:0 0.45em 0 0.45em!important;line-height:1!important;backdrop-filter:blur(6px)!important}\n' +
+            '.card__clean-votes{position:absolute!important;right:0!important;bottom:0!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:2px!important;padding:0.25em 0.4em!important;background:rgba(0,0,0,0.55)!important;border-radius:0.45em 0 0.45em 0!important;backdrop-filter:blur(6px)!important}\n' +
+            '.card__clean-votes .vote-row{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:4px!important;line-height:1!important}\n' +
+            '.card__clean-votes .vote-num{font-size:0.9em!important;font-weight:700!important;color:#fff!important;min-width:1.75em!important;text-align:right!important}\n' +
+            '.card__clean-votes .vote-icon{display:inline-flex!important;width:1.05em!important;height:1.05em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.95!important}\n' +
             '.card__clean-votes .vote-icon svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
-            '.detail-icon-svg{display:inline-flex!important;width:1.25em!important;height:1.25em!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;color:#fff!important;opacity:0.9!important}\n' +
+            '.detail-icon-svg{display:inline-flex!important;width:1.25em!important;height:1.25em!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;color:#fff!important;opacity:0.95!important}\n' +
             '.detail-icon-svg svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
             '.clean-detail-quality{margin-left:0.4em!important}\n' +
+            '.full-start-new__reactions, .full-start__reactions, .reactions{filter:grayscale(100%) brightness(1.2)!important;opacity:0.85!important}\n' +
             '.card .card__type,.card .card__quality,.card .card__vote{display:none!important}\n' +
             '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n' +
             '.full-start-new__rate > div, .full-start__rate > div{color:#fff!important}\n';
@@ -474,7 +504,7 @@
                 var movie = e.data && e.data.movie;
                 if (render && movie) {
                     updateDetailPosterBadge(movie, render);
-                    applyDetailRatingIcons(render);
+                    applyDetailRatingIcons(render, movie);
                     renderDetailQuality(movie, render);
                     renderNextEpisodeInfo(movie, render);
 
@@ -483,7 +513,7 @@
                         setTimeout(function () {
                             if (document.body.contains(render[0] || render)) {
                                 updateDetailPosterBadge(movie, render);
-                                applyDetailRatingIcons(render);
+                                applyDetailRatingIcons(render, movie);
                                 renderDetailQuality(movie, render);
                             }
                         }, t);
@@ -506,8 +536,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.0.9',
-        description: 'Классический стиль карточек, значки рейтингов, качество и даты выхода серий'
+        version: '1.1.0',
+        description: 'Классический стиль карточек, монохромные значки рейтингов, качество и даты выхода серий'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
