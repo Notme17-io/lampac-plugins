@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v3';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v4';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="55" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="125" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v3_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v4_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -422,9 +422,9 @@
         var lastDiff = parseDateDiff(lastDate);
 
         if (nextDiff !== null) {
-            if (nextDiff <= 0) {
+            if (nextDiff === 0) {
                 labelText = 'Следующая серия выходит сегодня: ' + formatNextEpisodeDate(nextDate);
-            } else {
+            } else if (nextDiff > 0) {
                 labelText = 'Следующая: ' + formatNextEpisodeDate(nextDate) + ' / Осталось дней: ' + nextDiff;
             }
         } else if (lastDiff !== null && lastDiff === 0) {
@@ -462,18 +462,18 @@
         if (document.getElementById('cards-style-theme')) return;
         var css = 
             '.card__clean-type{position:absolute!important;left:0.4em!important;top:-0.3em!important;z-index:10!important;padding:0.25em 0.55em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;line-height:1!important;letter-spacing:0.04em!important;text-transform:uppercase!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
-            '.card__clean-quality{position:absolute!important;left:0!important;bottom:0!important;z-index:10!important;padding:0.2em 0.38em!important;font-size:0.85em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.45)!important;border-radius:0 0.4em 0 0.4em!important;line-height:1!important;backdrop-filter:blur(6px)!important}\n' +
-            '.card__clean-votes{position:absolute!important;right:0!important;bottom:0!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:2px!important;padding:0.2em 0.35em!important;background:rgba(0,0,0,0.45)!important;border-radius:0.4em 0 0.4em 0!important;backdrop-filter:blur(6px)!important}\n' +
-            '.card__clean-votes .vote-row{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:3px!important;line-height:1!important}\n' +
-            '.card__clean-votes .vote-num{font-size:0.85em!important;font-weight:700!important;color:#fff!important;min-width:1.7em!important;text-align:right!important}\n' +
-            '.card__clean-votes .vote-icon{display:inline-flex!important;width:0.95em!important;height:0.95em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.95!important}\n' +
+            '.card__clean-quality{position:absolute!important;left:0.4em!important;bottom:-0.3em!important;z-index:10!important;padding:0.22em 0.45em!important;font-size:0.8em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;line-height:1!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
+            '.card__clean-votes{position:absolute!important;right:0.4em!important;bottom:-0.3em!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:1.5px!important;padding:0.2em 0.35em!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
+            '.card__clean-votes .vote-row{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:2.5px!important;line-height:1!important}\n' +
+            '.card__clean-votes .vote-num{font-size:0.8em!important;font-weight:700!important;color:#fff!important;min-width:1.5em!important;text-align:right!important}\n' +
+            '.card__clean-votes .vote-icon{display:inline-flex!important;width:0.9em!important;height:0.9em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.95!important}\n' +
             '.card__clean-votes .vote-icon svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
             '.detail-icon-svg{display:inline-flex!important;width:1.25em!important;height:1.25em!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;color:#fff!important;opacity:0.95!important}\n' +
             '.detail-icon-svg svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
             '.clean-detail-quality{margin-left:0.4em!important}\n' +
             '.full-start-new__rate-line, .full-start__rate-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0.4em!important}\n' +
             '.full-start-new__rate-line .full-start__status, .full-start__rate-line .full-start__status{margin-left:0.2em!important}\n' +
-            '.full-start-new__reactions, .full-start__reactions, .reactions{filter:grayscale(100%) contrast(160%) brightness(0.95)!important;opacity:0.9!important}\n' +
+            '.full-start-new__reactions, .full-start__reactions, .reactions{filter:grayscale(100%) contrast(220%) brightness(0.7)!important;opacity:0.95!important}\n' +
             '.card .card__type,.card .card__quality,.card .card__vote{display:none!important}\n' +
             '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n' +
             '.full-start-new__rate > div, .full-start__rate > div{color:#fff!important}\n';
@@ -541,8 +541,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.1.2',
-        description: 'Классический стиль карточек, монохромные значки рейтингов, качество 4K/1080p/720p и даты выхода серий'
+        version: '1.1.3',
+        description: 'Классический стиль карточек, монохромные значки рейтингов, плавающие плашки качества и даты выхода серий'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
