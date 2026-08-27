@@ -7,12 +7,11 @@
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><defs><linearGradient id="cTmdbG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#90cea1"/><stop offset="56%" stop-color="#3cbec9"/><stop offset="100%" stop-color="#00b3e5"/></linearGradient><style>.c-tm-t{font-weight:bold;fill:url(#cTmdbG);text-anchor:start;dominant-baseline:middle;font-size:70px;}</style></defs><text class="c-tm-t" x="0" y="50" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text class="c-tm-t" x="0" y="120" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
 
-    var CARD_IMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 122.88"><path fill="#F5C518" d="M18.43,0h86.02c10.18,0 18.43,8.25 18.43,18.43v86.02c0 10.18-8.25 18.43-18.43 18.43H18.43C8.25,122.88 0,114.63 0,104.45l0-86.02C0,8.25 8.25,0 18.43,0z"/><path fill="#000" d="M24.96,78.72V44.16h-9.6v34.56H24.96z M45.36,44.16L43.2,60.24L42,51.6l-1.2-7.44h-12v34.56h8.16v-22.8l3.36,22.8h6l3.12-23.28v23.28h8.16V44.16H45.36z M61.44,78.72V44.16h14.88c3.6,0 6.24,2.64 6.24,6v22.56c0,3.36-2.64,6-6.24,6H61.44z M72.72,50.4l-2.16-.24v22.56c1.2,0 2.16-.24 2.4-.72c.48-.48.48-1.92.48-4.32V54.24v-2.88L72.72,50.4z M100.56,52.8h.72c3.36,0 6.24,2.64 6.24,6v13.92c0,3.36-2.88,6-6.24,6h-.72c-1.92,0-3.84-.96-5.04-2.64l-.48,2.16H86.4V44.16h9.12V55.2C96.72,53.76,98.64,52.8,100.56,52.8z M98.64,69.6v-8.16L98.4,58.8c-.24-.48-.96-.72-1.44-.72-.48,0-1.2.24-1.44.72v13.68c.24.48.96.72 1.44.72.48,0 1.44-.24 1.44-.72L98.64,69.6z"/></svg>';
+    var CARD_IMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 122.88"><path fill="#F5C518" d="M18.43,0h86.02c10.18,0,18.43,8.25,18.43,18.43v86.02c0,10.18-8.25,18.43-18.43,18.43H18.43C8.25,122.88,0,114.63,0,104.45l0-86.02C0,8.25,8.25,0,18.43,0z"/><path fill="#000" d="M24.96,78.72V44.16h-9.6v34.56H24.96z M45.36,44.16L43.2,60.24L42,51.6l-1.2-7.44h-12v34.56h8.16v-22.8l3.36,22.8h6l3.12-23.28v23.28h8.16V44.16H45.36z M61.44,78.72V44.16h14.88c3.6,0,6.24,2.64,6.24,6v22.56c0,3.36-2.64,6-6.24,6H61.44z M72.72,50.4l-2.16-0.24v22.56c1.2,0,2.16-0.24,2.4-0.72c0.48-0.48,0.48-1.92,0.48-4.32V54.24v-2.88L72.72,50.4z M100.56,52.8h0.72c3.36,0,6.24,2.64,6.24,6v13.92c0,3.36-2.88,6-6.24,6h-0.72c-1.92,0-3.84-0.96-5.04-2.64l-0.48,2.16H86.4V44.16h9.12V55.2C96.72,53.76,98.64,52.8,100.56,52.8z M98.64,69.6v-8.16L98.4,58.8c-0.24-0.48-0.96-0.72-1.44-0.72c-0.48,0-1.2,0.24-1.44,0.72v13.68c0.24,0.48,0.96,0.72,1.44,0.72c0.48,0,1.44-0.24,1.44-0.72L98.64,69.6z"/></svg>';
 
     var CARD_KP_SVG = '<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="cKpM" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><circle cx="150" cy="150" r="150" fill="white"/></mask><g mask="url(#cKpM)"><circle cx="150" cy="150" r="150" fill="black"/><path d="M300 45L145.26 127.827L225.9 45H181.2L126.3 121.203V45H89.9999V255H126.3V178.92L181.2 255H225.9L147.354 174.777L300 255V216L160.776 160.146L300 169.5V130.5L161.658 139.494L300 84V45Z" fill="url(#cKpG)"/></g><defs><radialGradient id="cKpG" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(89.9999 45) rotate(45) scale(296.985)"><stop offset="0.5" stop-color="#FF5500"/><stop offset="1" stop-color="#BBFF00"/></radialGradient></defs></svg>';
 
-    var CARD_LAMPA_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="110" height="104" viewBox="0 0 110 104" fill="none"><path d="M81.6744 103.11C98.5682 93.7234 110 75.6967 110 55C110 24.6243 85.3757 0 55 0C24.6243 0 0 24.6243 0 55C0 75.6967 11.4318 93.7234 28.3255 103.11C14.8869 94.3724 6 79.224 6 62C6 34.938 27.938 13 55 13C82.062 13 104 34.938 104 62C104 79.224 95.1131 94.3725 81.6744 103.11Z" fill="white"/><path d="M92.9546 80.0076C95.5485 74.5501 97 68.4446 97 62C97 38.804 78.196 20 55 20C31.804 20 13 38.804 13 62C13 68.4446 14.4515 74.5501 17.0454 80.0076C16.3618 77.1161 16 74.1003 16 71C16 49.4609 33.4609 32 55 32C76.5391 32 94 49.4609 94 71C94 74.1003 93.6382 77.1161 92.9544 80.0076Z" fill="white"/><path d="M55 89C69.3594 89 81 77.3594 81 63C81 57.9297 79.5486 53.1983 77.0387 49.1987C82.579 54.7989 86 62.5 86 71C86 88.1208 72.1208 102 55 102C37.8792 102 24 88.1208 24 71C24 62.5 27.421 54.7989 32.9613 49.1987C30.4514 53.1983 29 57.9297 29 63C29 77.3594 40.6406 89 55 89Z" fill="white"/><path d="M73 63C73 72.9411 64.9411 81 55 81C45.0589 81 37 72.9411 37 63C37 53.0589 45.0589 45 55 45C64.9411 45 73 53.0589 73 63Z" fill="white"/></svg>';
-
+    var CARD_LAMPA_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="110" height="104" viewBox="0 0 110 104" fill="none"><path d="M81.6744 103.11C98.5682 93.7234 110 75.6967 110 55C110 24.6243 85.3757 0 55 0C24.6243 0 0 24.6243 0 55C0 75.6967 11.4318 93.7234 28.3255 103.11C14.8869 94.3724 6 79.224 6 62C6 34.938 27.938 13 55 13C82.062 13 104 34.938 104 62C104 79.224 95.1131 94.3725 81.6744 103.11Z" fill="white"/><path d="M92.9546 80.0076C95.5485 74.5501 97 68.4446 97 62C97 38.804 78.196 20 55 20C31.804 20 13 38.804 13 62C13 68.4446 14.4515 74.5501 17.0454 80.0076C16.3618 77.1161 16 74.1003 16 71C16 49.4609 33.4609 32 55 32C76.5391 32 94 49.4609 94 71C94 74.1003 93.6382 77.1161 92.9546 80.0076Z" fill="white"/><path d="M55 89C69.3594 89 81 77.3594 81 63C81 57.9297 79.5486 53.1983 77.0387 49.1987C82.579 54.7989 86 62.5 86 71C86 88.1208 72.1208 102 55 102C37.8792 102 24 88.1208 24 71C24 62.5 27.421 54.7989 32.9613 49.1987C30.4514 53.1983 29 57.9297 29 63C29 77.3594 40.6406 89 55 89Z" fill="white"/><path d="M73 63C73 72.9411 64.9411 81 55 81C45.0589 81 37 72.9411 37 63C37 53.0589 45.0589 45 55 45C64.9411 45 73 53.0589 73 63Z" fill="white"/></svg>';
 
     function _b64raw(str) {
         if (typeof atob === 'function') {
@@ -24,9 +23,7 @@
         }
 
         var b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-        str = String(str)
-            .replace(/=+$/, '')
-            .replace(/[^A-Za-z0-9+/]/g, '');
+        str = String(str).replace(/=+$/, '').replace(/[^A-Za-z0-9+/]/g, '');
 
         var out = '';
         var bits = 0;
@@ -44,7 +41,6 @@
 
         return out;
     }
-
 
     function _decodeAllohaServers() {
         var _d = 'OBpQET0aR0hOCQ0XEQFeYFkEAgVPGBMDBwMuGglcAxMeQU1QECAdABxOW1tbBRNVLE8HFwgAQFZVR1V4QldEWAUaWgdEVy5BUhZOHFUYQwcWI1RfUAQVDRMSSEtgAxUcQhINFg0eSjcPH1BAQw0MChcKbUxHFl9QTldVQ1d6TwBHXFQaUFVBB31GU0EJBRpaVhdTbQs4';
@@ -66,7 +62,6 @@
         }
     }
 
-
     var ALLOHA_API_SERVERS = _decodeAllohaServers();
 
     var CACHE_TTL = 24 * 60 * 60 * 1000;
@@ -75,7 +70,6 @@
 
     var DEBUG = false;
 
-
     function logErr(e) {
         if (!DEBUG) return;
 
@@ -83,7 +77,6 @@
             console.error('[cards_style]', e);
         } catch (e2) {}
     }
-
 
     var ratingCache = {
         caches: {},
@@ -114,19 +107,17 @@
                 (this.caches[source] = loadPersistentCache(source));
 
             value.timestamp = Date.now();
-            cache[key] = value;
 
+            cache[key] = value;
             debouncedSave(source, cache);
 
             return value;
         }
     };
 
-
     function getPersistentCacheKey(source) {
         return 'cards_style_cache_' + source;
     }
-
 
     function loadPersistentCache(source) {
         var stored = null;
@@ -145,9 +136,7 @@
             : {};
     }
 
-
     var _saveStates = Object.create(null);
-
 
     function debouncedSave(source, cache) {
         var key = getPersistentCacheKey(source);
@@ -168,21 +157,21 @@
             state.timer = 0;
 
             try {
-                Lampa.Storage.set(key, state.cache);
+                Lampa.Storage.set(
+                    key,
+                    state.cache
+                );
             } catch (e) {
                 logErr(e);
             }
         }, 2000);
     }
 
-
     var requestPool = [];
-
 
     function getRequest() {
         return requestPool.pop() || new Lampa.Reguest();
     }
-
 
     function releaseRequest(req) {
         req.clear();
@@ -192,7 +181,6 @@
         }
     }
 
-
     function getKpApiKey() {
         return String(
             Lampa.Storage.get('rating_kp_api_key', '') ||
@@ -201,7 +189,6 @@
         ).trim();
     }
 
-
     function formatRating(value) {
         var n = parseFloat(value);
 
@@ -209,18 +196,20 @@
             return '0.0';
         }
 
-        return n === 10 ? '10' : n.toFixed(1);
+        return n === 10
+            ? '10'
+            : n.toFixed(1);
     }
 
-
     function getTmdbRating(data) {
-        var rating = parseFloat(data && data.vote_average) || 0;
+        var rating = parseFloat(
+            data && data.vote_average
+        ) || 0;
 
         return rating > 0
             ? rating.toFixed(1)
             : '0.0';
     }
-
 
     function getKinopoiskRating(item, callback) {
         var kpKey =
@@ -236,7 +225,10 @@
             return;
         }
 
-        var cached = ratingCache.get('kp_rating', kpKey);
+        var cached = ratingCache.get(
+            'kp_rating',
+            kpKey
+        );
 
         if (cached) {
             callback(cached);
@@ -259,10 +251,16 @@
         req.timeout(5000);
 
         var searchUrl = item.kinopoisk_id
-            ? KP_API_URL + 'api/v2.2/films/' + item.kinopoisk_id
+            ? KP_API_URL +
+              'api/v2.2/films/' +
+              item.kinopoisk_id
             : KP_API_URL +
               'api/v2.1/films/search-by-keyword?keyword=' +
-              encodeURIComponent(item.title || item.name || '');
+              encodeURIComponent(
+                  item.title ||
+                  item.name ||
+                  ''
+              );
 
         req.silent(
             searchUrl,
@@ -276,22 +274,33 @@
                 };
 
                 if (data && data.ratingKinopoisk) {
-                    res.kp = parseFloat(data.ratingKinopoisk) || 0;
-                    res.imdb = parseFloat(data.ratingImdb) || 0;
+                    res.kp =
+                        parseFloat(
+                            data.ratingKinopoisk
+                        ) || 0;
+
+                    res.imdb =
+                        parseFloat(
+                            data.ratingImdb
+                        ) || 0;
                 } else if (
                     data &&
                     (data.films || data.items) &&
                     (data.films || data.items).length
                 ) {
-                    var best = (data.films || data.items)[0];
+                    var best =
+                        (data.films || data.items)[0];
 
                     res.kp =
                         parseFloat(
-                            best.rating || best.ratingKinopoisk
+                            best.rating ||
+                            best.ratingKinopoisk
                         ) || 0;
 
                     res.imdb =
-                        parseFloat(best.ratingImdb) || 0;
+                        parseFloat(
+                            best.ratingImdb
+                        ) || 0;
                 }
 
                 ratingCache.set(
@@ -313,6 +322,7 @@
             },
 
             false,
+
             {
                 headers: {
                     'X-API-KEY': apiKey
@@ -321,18 +331,27 @@
         );
     }
 
-
     function normalizeQuality(val) {
         var text = String(val || '').toLowerCase();
 
-        if (/2160|4k|uhd/.test(text)) return '4K';
-        if (/1080|full\s*hd|fhd/.test(text)) return 'FHD';
-        if (/720|hd/.test(text)) return 'HD';
-        if (/480|360|sd/.test(text)) return 'SD';
+        if (/2160|4k|uhd/.test(text)) {
+            return '4K';
+        }
+
+        if (/1080|full\s*hd|fhd/.test(text)) {
+            return 'FHD';
+        }
+
+        if (/720|hd/.test(text)) {
+            return 'HD';
+        }
+
+        if (/480|360|sd/.test(text)) {
+            return 'SD';
+        }
 
         return null;
     }
-
 
     function fetchQuality(item, callback) {
         var cacheKey = 'q_' + item.id;
@@ -348,12 +367,17 @@
         }
 
         var releaseYear =
-            (item.release_date ||
-             item.first_air_date ||
-             '').substring(0, 4);
+            (
+                item.release_date ||
+                item.first_air_date ||
+                ''
+            ).substring(0, 4);
 
         var uniqueId =
-            Lampa.Storage.get('lampac_unic_id', '');
+            Lampa.Storage.get(
+                'lampac_unic_id',
+                ''
+            );
 
         var jacUrl =
             'https://' +
@@ -364,7 +388,9 @@
             releaseYear +
             '&title=' +
             encodeURIComponent(
-                item.title || item.name || ''
+                item.title ||
+                item.name ||
+                ''
             );
 
         var req = getRequest();
@@ -396,9 +422,10 @@
                         i++
                     ) {
                         var r =
-                            (releases[i].info &&
-                             releases[i].info.quality) ||
-                            0;
+                            (
+                                releases[i].info &&
+                                releases[i].info.quality
+                            ) || 0;
 
                         if (r > maxRes) {
                             maxRes = r;
@@ -504,25 +531,22 @@
         );
     }
 
+    /* ============================================================
+       ТИП КАРТОЧКИ
 
-    /*
-     * ------------------------------------------------------------
-     * ТИП КАРТОЧКИ
-     * ------------------------------------------------------------
-     *
-     * Всегда:
-     *   фильм  -> Фильм
-     *   сериал -> Сериал
-     *
-     * Никаких TV.
-     */
+       Всегда:
+       фильм   -> Фильм
+       сериал  -> Сериал
+       ============================================================ */
 
     function addTypeLabel(card) {
-        var view = card.querySelector('.card__view');
+        var view =
+            card.querySelector('.card__view');
 
         if (!view) return;
 
-        var data = card.card_data || {};
+        var data =
+            card.card_data || {};
 
         var isTV =
             data.type === 'tv' ||
@@ -532,23 +556,12 @@
             card.classList.contains('card--tv');
 
         var old =
-            view.querySelector('.card__clean-type');
+            view.querySelector(
+                '.card__clean-type'
+            );
 
         if (old) {
             old.remove();
-        }
-
-        /*
-         * Удаляем нативный тип Lampa,
-         * чтобы не было одновременно TV + Сериал.
-         */
-        var nativeType =
-            view.querySelector(
-                '.card__type'
-            );
-
-        if (nativeType) {
-            nativeType.style.display = 'none';
         }
 
         var label =
@@ -569,7 +582,6 @@
 
         view.appendChild(label);
     }
-
 
     function updateCardQuality(card) {
         var view =
@@ -616,7 +628,6 @@
             }
         );
     }
-
 
     function updateCardRating(card) {
         var view =
@@ -719,7 +730,6 @@
         );
     }
 
-
     function updateCard(card) {
         if (
             !card ||
@@ -733,12 +743,9 @@
         updateCardRating(card);
     }
 
-
-    /*
-     * ------------------------------------------------------------
-     * РЕЙТИНГИ НА СТРАНИЦЕ ФИЛЬМА / СЕРИАЛА
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       РЕЙТИНГИ НА СТРАНИЦЕ ФИЛЬМА / СЕРИАЛА
+       ============================================================ */
 
     function applyDetailRatingIcons(render) {
         var scope = $(render);
@@ -774,8 +781,8 @@
                                             this.textContent ||
                                             ''
                                         )
-                                            .trim()
-                                            .toUpperCase();
+                                        .trim()
+                                        .toUpperCase();
 
                                     return (
                                         text === 'TMDB' ||
@@ -813,15 +820,184 @@
         }
     }
 
+    /* ============================================================
+       СЛЕДУЮЩАЯ СЕРИЯ
+       ============================================================ */
 
-    /*
-     * ------------------------------------------------------------
-     * ФИЛЬМ / СЕРИАЛ НА СТРАНИЦЕ ПРОСМОТРА
-     * ------------------------------------------------------------
-     */
+    function formatNextEpisodeDate(dateStr) {
+        var d =
+            new Date(dateStr);
 
-    function renderDetailType(movie, render) {
-        if (!movie || !render) {
+        if (isNaN(d.getTime())) {
+            return dateStr;
+        }
+
+        var months = [
+            'Января',
+            'Февраля',
+            'Марта',
+            'Апреля',
+            'Мая',
+            'Июня',
+            'Июля',
+            'Августа',
+            'Сентября',
+            'Октября',
+            'Ноября',
+            'Декабря'
+        ];
+
+        return (
+            d.getDate() +
+            ' ' +
+            months[d.getMonth()]
+        );
+    }
+
+    function renderNextEpisodeInfo(
+        movie,
+        render
+    ) {
+        if (
+            !movie ||
+            !movie.next_episode_to_air ||
+            !render
+        ) {
+            return;
+        }
+
+        var next =
+            movie.next_episode_to_air;
+
+        if (!next.air_date) {
+            return;
+        }
+
+        var parts =
+            next.air_date.split('-');
+
+        if (parts.length < 3) {
+            return;
+        }
+
+        var targetDate =
+            new Date(
+                parts[0],
+                parts[1] - 1,
+                parts[2]
+            );
+
+        var now =
+            new Date();
+
+        var today =
+            new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate()
+            );
+
+        var diffTime =
+            targetDate.getTime() -
+            today.getTime();
+
+        var diffDays =
+            Math.round(
+                diffTime /
+                (1000 * 60 * 60 * 24)
+            );
+
+        if (diffDays < 0) {
+            return;
+        }
+
+        var details =
+            $(render).find(
+                '.full-start-new__details, .full-start__details'
+            );
+
+        if (!details.length) {
+            return;
+        }
+
+        details
+            .find(
+                '.clean-next-episode-info'
+            )
+            .remove();
+
+        details
+            .contents()
+            .filter(function () {
+                return (
+                    this.nodeType === 3 &&
+                    /Следующая/i.test(
+                        this.nodeValue
+                    )
+                );
+            })
+            .remove();
+
+        details
+            .find('span')
+            .filter(function () {
+                return /Следующая/i.test(
+                    $(this).text()
+                );
+            })
+            .each(function () {
+                var el = $(this);
+
+                el.prev(
+                    '.full-start-new__split, .full-start__split'
+                ).remove();
+
+                el.remove();
+            });
+
+        var dateText =
+            formatNextEpisodeDate(
+                next.air_date
+            );
+
+        var labelText =
+            diffDays === 0
+                ? 'Следующая серия выходит сегодня: ' +
+                  dateText
+                : 'Следующая: ' +
+                  dateText +
+                  ' / Осталось дней: ' +
+                  diffDays;
+
+        var split =
+            $(
+                '<span class="full-start-new__split clean-next-episode-info">•</span>'
+            );
+
+        var item =
+            $(
+                '<span class="clean-next-episode-info">' +
+                labelText +
+                '</span>'
+            );
+
+        details
+            .append(split)
+            .append(item);
+    }
+
+    /* ============================================================
+       ТИП НА СТРАНИЦЕ ФИЛЬМА / СЕРИАЛА
+       ============================================================ */
+
+    function renderDetailType(
+        movie,
+        render
+    ) {
+        if (
+            !movie ||
+            !render
+        ) {
             return;
         }
 
@@ -841,18 +1017,8 @@
         }
 
         target
-            .find('.clean-detail-type')
-            .remove();
-
-        /*
-         * Удаляем возможный старый TV / Film,
-         * чтобы не было дубля.
-         */
-        target
             .find(
-                '.card__type,' +
-                '.full-start__type,' +
-                '.full-start-new__type'
+                '.clean-detail-type'
             )
             .remove();
 
@@ -870,8 +1036,14 @@
         target.prepend(type);
     }
 
+    /* ============================================================
+       КАЧЕСТВО НА СТРАНИЦЕ
+       ============================================================ */
 
-    function renderDetailQuality(movie, render) {
+    function renderDetailQuality(
+        movie,
+        render
+    ) {
         fetchQuality(
             movie,
 
@@ -903,12 +1075,21 @@
         );
     }
 
+    /* ============================================================
+       СТИЛИ
 
-    /*
-     * ------------------------------------------------------------
-     * СТИЛИ
-     * ------------------------------------------------------------
-     */
+       Основа — как на первом скриншоте.
+
+       Тип:
+       Фильм / Сериал
+
+       Стиль:
+       оригинальная выступающая плашка Lampa,
+       но чёрно-белая.
+
+       Рейтинги на странице:
+       без тяжёлых отдельных чёрных контейнеров.
+       ============================================================ */
 
     function initStyles() {
         if (
@@ -921,16 +1102,11 @@
 
         var css =
 
-            /*
-             * --------------------------------------------------
-             * ТИП НА КАРТОЧКЕ
-             * --------------------------------------------------
-             *
-             * Сделано максимально близко к оригинальной
-             * выступающей плашке Lampa.
-             *
-             * Ч/Б вместо красного/синего.
-             */
+            /* =====================================================
+               ТИП НА КАРТОЧКЕ
+               Оригинальная выступающая плашка Lampa.
+               Ч/б вместо красного / синего.
+               ===================================================== */
 
             '.card__clean-type{' +
                 'position:absolute!important;' +
@@ -941,58 +1117,50 @@
                 'font-size:.72em!important;' +
                 'font-weight:700!important;' +
                 'color:#fff!important;' +
-                'background:rgba(0,0,0,.78)!important;' +
-                'border:1px solid rgba(255,255,255,.28)!important;' +
-                'border-left:0!important;' +
-                'border-top:0!important;' +
-                'border-radius:0 0 .65em 0!important;' +
+                'background:rgba(0,0,0,.84)!important;' +
+                'border:0!important;' +
+                'border-radius:0 0 .55em 0!important;' +
                 'line-height:1!important;' +
-                'letter-spacing:.035em!important;' +
-                'box-shadow:0 3px 12px rgba(0,0,0,.35)!important;' +
-                'text-shadow:0 1px 2px rgba(0,0,0,.55)!important;' +
-                'backdrop-filter:blur(7px)!important;' +
-                '-webkit-backdrop-filter:blur(7px)!important;' +
+                'letter-spacing:.02em!important;' +
+                'text-shadow:0 1px 2px rgba(0,0,0,.6)!important;' +
+                'box-shadow:0 3px 10px rgba(0,0,0,.35)!important;' +
+                'backdrop-filter:blur(5px)!important;' +
+                '-webkit-backdrop-filter:blur(5px)!important' +
             '}' +
 
             '.clean-type--tv,' +
             '.clean-type--movie{' +
-                'background:rgba(0,0,0,.78)!important;' +
-                'color:#fff!important;' +
+                'background:rgba(0,0,0,.84)!important;' +
+                'color:#fff!important' +
             '}' +
 
-
-            /*
-             * --------------------------------------------------
-             * ТИП НА СТРАНИЦЕ ФИЛЬМА
-             * --------------------------------------------------
-             */
+            /* =====================================================
+               ТИП НА СТРАНИЦЕ ФИЛЬМА / СЕРИАЛА
+               ===================================================== */
 
             '.clean-detail-type{' +
                 'display:inline-flex!important;' +
                 'align-items:center!important;' +
                 'justify-content:center!important;' +
-                'min-height:1.85em!important;' +
-                'padding:.2em .62em!important;' +
-                'margin:0 .28em .18em 0!important;' +
-                'border:1px solid rgba(255,255,255,.22)!important;' +
-                'background:rgba(0,0,0,.48)!important;' +
+                'min-height:1.65em!important;' +
+                'padding:.18em .55em!important;' +
+                'margin:0 .25em .15em 0!important;' +
+                'border:1px solid rgba(255,255,255,.28)!important;' +
+                'background:rgba(0,0,0,.28)!important;' +
                 'color:#fff!important;' +
-                'border-radius:.48em!important;' +
+                'border-radius:.35em!important;' +
                 'font-size:.82em!important;' +
-                'font-weight:700!important;' +
+                'font-weight:400!important;' +
                 'line-height:1!important;' +
                 'vertical-align:middle!important;' +
-                'box-shadow:0 2px 10px rgba(0,0,0,.16)!important;' +
-                'backdrop-filter:blur(6px)!important;' +
-                '-webkit-backdrop-filter:blur(6px)!important;' +
+                'box-shadow:none!important;' +
+                'backdrop-filter:none!important;' +
+                '-webkit-backdrop-filter:none!important' +
             '}' +
 
-
-            /*
-             * --------------------------------------------------
-             * КАЧЕСТВО НА КАРТОЧКЕ
-             * --------------------------------------------------
-             */
+            /* =====================================================
+               КАЧЕСТВО НА КАРТОЧКЕ
+               ===================================================== */
 
             '.card__clean-quality{' +
                 'position:absolute!important;' +
@@ -1004,23 +1172,19 @@
                 'font-weight:700!important;' +
                 'color:#fff!important;' +
                 'background:rgba(8,8,10,.78)!important;' +
-                'border:1px solid rgba(255,255,255,.12)!important;' +
-                'border-left:0!important;' +
-                'border-bottom:0!important;' +
+                'border:0!important;' +
                 'border-radius:0 .55em 0 0!important;' +
                 'line-height:1!important;' +
                 'letter-spacing:.01em!important;' +
                 'box-shadow:0 -2px 8px rgba(0,0,0,.16)!important;' +
                 'backdrop-filter:blur(7px)!important;' +
-                '-webkit-backdrop-filter:blur(7px)!important;' +
+                '-webkit-backdrop-filter:blur(7px)!important' +
             '}' +
 
-
-            /*
-             * --------------------------------------------------
-             * РЕЙТИНГИ НА КАРТОЧКЕ
-             * --------------------------------------------------
-             */
+            /* =====================================================
+               РЕЙТИНГИ НА КАРТОЧКЕ
+               Без большой общей панели.
+               ===================================================== */
 
             '.card__clean-votes{' +
                 'position:absolute!important;' +
@@ -1029,34 +1193,35 @@
                 'z-index:10!important;' +
                 'display:flex!important;' +
                 'flex-direction:column!important;' +
-                'gap:3px!important;' +
-                'padding:.34em .42em!important;' +
-                'background:rgba(8,8,10,.78)!important;' +
-                'border:1px solid rgba(255,255,255,.12)!important;' +
-                'border-right:0!important;' +
-                'border-bottom:0!important;' +
-                'border-radius:.55em 0 0 0!important;' +
-                'box-shadow:0 -2px 8px rgba(0,0,0,.16)!important;' +
-                'backdrop-filter:blur(7px)!important;' +
-                '-webkit-backdrop-filter:blur(7px)!important;' +
+                'gap:2px!important;' +
+                'padding:.28em .32em!important;' +
+                'background:transparent!important;' +
+                'border:0!important;' +
+                'border-radius:0!important;' +
+                'box-shadow:none!important' +
             '}' +
 
             '.card__clean-votes .vote-row{' +
                 'display:flex!important;' +
                 'align-items:center!important;' +
                 'justify-content:flex-end!important;' +
-                'gap:4px!important;' +
+                'gap:3px!important;' +
                 'line-height:1!important;' +
                 'min-height:1.05em!important;' +
+                'padding:.10em .22em!important;' +
+                'border-radius:.25em!important;' +
+                'background:rgba(0,0,0,.68)!important;' +
+                'backdrop-filter:blur(4px)!important;' +
+                '-webkit-backdrop-filter:blur(4px)!important' +
             '}' +
 
             '.card__clean-votes .vote-num{' +
                 'font-size:.70em!important;' +
                 'font-weight:700!important;' +
-                'color:rgba(255,255,255,.96)!important;' +
+                'color:#fff!important;' +
                 'min-width:1.8em!important;' +
                 'text-align:right!important;' +
-                'font-variant-numeric:tabular-nums!important;' +
+                'font-variant-numeric:tabular-nums!important' +
             '}' +
 
             '.card__clean-votes .vote-icon{' +
@@ -1065,58 +1230,57 @@
                 'height:1.02em!important;' +
                 'align-items:center!important;' +
                 'justify-content:center!important;' +
-                'flex-shrink:0!important;' +
+                'flex-shrink:0!important' +
             '}' +
 
             '.card__clean-votes .vote-icon svg{' +
                 'width:100%!important;' +
                 'height:100%!important;' +
                 'object-fit:contain!important;' +
-                'display:block!important;' +
+                'display:block!important' +
             '}' +
 
-
-            /*
-             * --------------------------------------------------
-             * РЕЙТИНГИ НА СТРАНИЦЕ ФИЛЬМА
-             * --------------------------------------------------
-             */
+            /* =====================================================
+               РЕЙТИНГИ НА СТРАНИЦЕ
+               Как на первом скриншоте:
+               7.9 TMDB   8.1 IMDb   8.2 KP
+               ===================================================== */
 
             '.clean-detail-rate{' +
                 'display:inline-flex!important;' +
                 'align-items:center!important;' +
-                'gap:.38em!important;' +
-                'min-height:1.85em!important;' +
-                'padding:.16em .52em!important;' +
-                'margin:0 .22em .18em 0!important;' +
-                'border:1px solid rgba(255,255,255,.12)!important;' +
-                'background:rgba(0,0,0,.28)!important;' +
-                'border-radius:.48em!important;' +
-                'box-shadow:0 2px 10px rgba(0,0,0,.12)!important;' +
+                'gap:.28em!important;' +
+                'min-height:1.55em!important;' +
+                'padding:0!important;' +
+                'margin:0 .38em .12em 0!important;' +
+                'border:0!important;' +
+                'background:transparent!important;' +
+                'border-radius:0!important;' +
+                'box-shadow:none!important;' +
                 'vertical-align:middle!important;' +
                 'line-height:1!important;' +
-                'backdrop-filter:blur(6px)!important;' +
-                '-webkit-backdrop-filter:blur(6px)!important;' +
+                'backdrop-filter:none!important;' +
+                '-webkit-backdrop-filter:none!important' +
             '}' +
 
             '.clean-detail-rate > *{' +
-                'flex-shrink:0!important;' +
+                'flex-shrink:0!important' +
             '}' +
 
             '.detail-icon-svg{' +
                 'display:inline-flex!important;' +
-                'width:1.22em!important;' +
-                'height:1.22em!important;' +
+                'width:1.16em!important;' +
+                'height:1.16em!important;' +
                 'align-items:center!important;' +
                 'justify-content:center!important;' +
-                'vertical-align:middle!important;' +
+                'vertical-align:middle!important' +
             '}' +
 
             '.detail-icon-svg svg{' +
                 'width:100%!important;' +
                 'height:100%!important;' +
                 'display:block!important;' +
-                'object-fit:contain!important;' +
+                'object-fit:contain!important' +
             '}' +
 
             '.clean-icon-applied{' +
@@ -1126,81 +1290,69 @@
                 'align-items:center!important;' +
                 'justify-content:center!important;' +
                 'margin:0!important;' +
-                'width:1.22em!important;' +
-                'height:1.22em!important;' +
+                'width:1.16em!important;' +
+                'height:1.16em!important' +
             '}' +
 
             '.clean-generated-icon{' +
-                'margin:0!important;' +
+                'margin:0!important' +
             '}' +
 
             '.clean-detail-rate .source--value,' +
             '.clean-detail-rate .source--rating,' +
             '.clean-detail-rate .source--rate{' +
-                'font-size:.9em!important;' +
+                'font-size:.90em!important;' +
                 'font-weight:700!important;' +
                 'color:#fff!important;' +
-                'font-variant-numeric:tabular-nums!important;' +
+                'font-variant-numeric:tabular-nums!important' +
             '}' +
 
-
-            /*
-             * --------------------------------------------------
-             * КАЧЕСТВО НА СТРАНИЦЕ ФИЛЬМА
-             * --------------------------------------------------
-             */
+            /* =====================================================
+               FHD / 4K НА СТРАНИЦЕ
+               ===================================================== */
 
             '.clean-detail-quality{' +
                 'display:inline-flex!important;' +
                 'align-items:center!important;' +
-                'gap:.42em!important;' +
-                'border:1px solid rgba(255,255,255,.14)!important;' +
-                'background:rgba(255,255,255,.09)!important;' +
+                'gap:.3em!important;' +
+                'border:1px solid rgba(255,255,255,.28)!important;' +
+                'background:transparent!important;' +
                 'color:#fff!important;' +
-                'border-radius:.48em!important;' +
-                'padding:.26em .58em!important;' +
-                'margin:0 0 .18em .12em!important;' +
+                'border-radius:.35em!important;' +
+                'padding:.18em .52em!important;' +
+                'margin:0 0 .15em .05em!important;' +
                 'font-size:.82em!important;' +
-                'font-weight:700!important;' +
+                'font-weight:400!important;' +
                 'line-height:1!important;' +
                 'vertical-align:middle!important;' +
-                'box-shadow:0 2px 10px rgba(0,0,0,.12)!important;' +
-                'backdrop-filter:blur(6px)!important;' +
-                '-webkit-backdrop-filter:blur(6px)!important;' +
+                'box-shadow:none!important;' +
+                'backdrop-filter:none!important;' +
+                '-webkit-backdrop-filter:none!important' +
             '}' +
 
             '.quality-dot{' +
-                'width:.42em!important;' +
-                'height:.42em!important;' +
-                'border-radius:50%!important;' +
-                'background:currentColor!important;' +
-                'opacity:.7!important;' +
-                'display:inline-block!important;' +
-                'box-shadow:0 0 0 .18em rgba(255,255,255,.08)!important;' +
+                'display:none!important' +
             '}' +
 
-
-            /*
-             * --------------------------------------------------
-             * УДАЛЯЕМ СТАРЫЕ ДУБЛИ
-             * --------------------------------------------------
-             */
+            /* =====================================================
+               УБИРАЕМ СТАРЫЕ ДУБЛИ
+               ===================================================== */
 
             '.card .card__type,' +
             '.card .card__quality,' +
             '.card .card__vote{' +
-                'display:none!important;' +
+                'display:none!important' +
             '}' +
 
             '.full-start__status,' +
             '.full-start-new__rate,' +
             '.full-start__rate{' +
-                'color:#fff!important;' +
+                'color:#fff!important' +
             '}' +
 
             '.full-start-new__rate > div,' +
             '.full-start__rate > div{' +
-                'color:#fff!important;' +
+                'color:#fff!important' +
             '}' +
 
             '.full-start-new__rate-line,' +
@@ -1208,18 +1360,33 @@
                 'display:flex!important;' +
                 'align-items:center!important;' +
                 'flex-wrap:wrap!important;' +
-                'gap:0!important;' +
+                'gap:0!important' +
             '}' +
 
             '.full-start-new__rate-line > .clean-detail-rate,' +
             '.full-start__rate-line > .clean-detail-rate{' +
-                'margin-right:.28em!important;' +
+                'margin-right:.38em!important' +
             '}' +
 
             '.clean-next-episode-info{' +
-                'color:rgba(255,255,255,.86)!important;' +
-            '}';
+                'color:rgba(255,255,255,.86)!important' +
+            '}' +
 
+            /* Тип первым, рейтинги после него, качество последним */
+            '.full-start-new__rate-line > .clean-detail-type,' +
+            '.full-start__rate-line > .clean-detail-type{' +
+                'order:0!important' +
+            '}' +
+
+            '.full-start-new__rate-line > .clean-detail-rate,' +
+            '.full-start__rate-line > .clean-detail-rate{' +
+                'order:1!important' +
+            '}' +
+
+            '.full-start-new__rate-line > .clean-detail-quality,' +
+            '.full-start__rate-line > .clean-detail-quality{' +
+                'order:2!important' +
+            '}';
 
         var style =
             document.createElement('style');
@@ -1237,16 +1404,12 @@
         document.head.appendChild(style);
     }
 
-
-    /*
-     * ------------------------------------------------------------
-     * INIT
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       INIT
+       ============================================================ */
 
     function init() {
         initStyles();
-
 
         Lampa.Listener.follow(
             'card',
@@ -1273,7 +1436,6 @@
                 }
             }
         );
-
 
         Lampa.Listener.follow(
             'full',
@@ -1318,7 +1480,6 @@
             }
         );
 
-
         setInterval(
             function () {
                 var cards =
@@ -1349,14 +1510,14 @@
         );
     }
 
-
     var manifest = {
         name: 'Cards Style',
+
         version: '1.1.1',
+
         description:
             'Чёрно-белый стиль карточек: Фильм / Сериал, рейтинги, качество и даты выхода серий'
     };
-
 
     if (
         Array.isArray(
@@ -1378,7 +1539,6 @@
             manifest;
     }
 
-
     if (window.appready) {
         init();
     } else {
@@ -1386,7 +1546,9 @@
             'app',
 
             function (e) {
-                if (e.type === 'ready') {
+                if (
+                    e.type === 'ready'
+                ) {
                     init();
                 }
             }
