@@ -284,28 +284,30 @@
 
     function applyDetailRatingIcons(render) {
         var scope = $(render);
-        var map = {
-            'rate--tmdb': CARD_TMDB_SVG,
-            'rate--imdb': CARD_IMDB_SVG,
-            'rate--kp': CARD_KP_SVG,
-            'rate--lampa': CARD_LAMPA_SVG
-        };
+        var map = [
+            { cls: 'rate--tmdb', svg: CARD_TMDB_SVG, name: 'TMDB' },
+            { cls: 'rate--imdb', svg: CARD_IMDB_SVG, name: 'IMDB' },
+            { cls: 'rate--kp', svg: CARD_KP_SVG, name: 'KP' },
+            { cls: 'rate--lampa', svg: CARD_LAMPA_SVG, name: 'LAMPA' }
+        ];
 
-        for (var key in map) {
-            scope.find('.' + key).each(function () {
+        map.forEach(function (item) {
+            scope.find('.' + item.cls + ', .full-start-new__rate, .full-start__rate').each(function () {
                 var el = $(this);
-                var target = el.find('.source--name');
-                if (!target.length) {
-                    target = el.children('div').filter(function () {
-                        var text = (this.textContent || '').trim().toUpperCase();
-                        return text === 'TMDB' || text === 'IMDB' || text === 'KP' || text === 'LAMPA' || text === '★';
-                    }).last();
-                }
-                if (target.length && !target.hasClass('clean-icon-applied')) {
-                    target.addClass('clean-icon-applied').html('<span class="detail-icon-svg">' + map[key] + '</span>');
+                if (el.hasClass(item.cls) || el.find('.' + item.cls).length || el.text().indexOf(item.name) !== -1) {
+                    var target = el.find('.source--name');
+                    if (!target.length) {
+                        target = el.children('div').filter(function () {
+                            var t = (this.textContent || '').trim().toUpperCase();
+                            return t === item.name || t === '★';
+                        }).last();
+                    }
+                    if (target.length) {
+                        target.html('<span class="detail-icon-svg">' + item.svg + '</span>');
+                    }
                 }
             });
-        }
+        });
     }
 
     function formatNextEpisodeDate(dateStr) {
@@ -380,7 +382,8 @@
             '.card__clean-votes .vote-icon{display:inline-flex!important;width:1.1em!important;height:1.1em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important}\n' +
             '.card__clean-votes .vote-icon svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
             '.detail-icon-svg{display:inline-flex!important;width:1.35em!important;height:1.35em!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important}\n' +
-            '.clean-icon-applied{font-size:0!important;color:transparent!important;display:inline-flex!important;align-items:center!important;margin-left:0.25em!important}\n' +
+            '.detail-icon-svg svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
+            '.full-start-new__rate .source--name, .full-start__rate .source--name{font-size:0!important;color:transparent!important;display:inline-flex!important;align-items:center!important;margin-left:0.25em!important}\n' +
             '.clean-detail-quality{border:1px solid rgba(255,255,255,0.15)!important;background:rgba(255,255,255,0.08)!important;color:#fff!important;border-radius:0.3em!important;padding:0.2em 0.5em!important;font-weight:600!important;line-height:1!important}\n' +
             '.card .card__type,.card .card__quality,.card .card__vote{display:none!important}\n' +
             '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n' +
@@ -415,6 +418,16 @@
                     applyDetailRatingIcons(render);
                     renderDetailQuality(movie, render);
                     renderNextEpisodeInfo(movie, render);
+
+                    // Повторный запуск для динамически подгружаемых оценок
+                    var retries = [100, 300, 600, 1200];
+                    retries.forEach(function (t) {
+                        setTimeout(function () {
+                            if (document.body.contains(render[0] || render)) {
+                                applyDetailRatingIcons(render);
+                            }
+                        }, t);
+                    });
                 }
             }
         });
@@ -425,12 +438,15 @@
                 cards[i].setAttribute('data-clean-observed', '1');
                 if (cards[i].card_data) updateCard(cards[i]);
             }
-        }, 300);
+
+            var fullRender = document.querySelector('.full-start-new, .full-start');
+            if (fullRender) applyDetailRatingIcons(fullRender);
+        }, 400);
     }
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.0.3',
+        version: '1.0.4',
         description: 'Классический стиль карточек, значки рейтингов, качество и даты выхода серий'
     };
 
