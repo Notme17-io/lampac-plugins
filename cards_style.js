@@ -31,25 +31,11 @@
     var CACHE_TTL = 24 * 60 * 60 * 1000;
     var CACHE_EMPTY_TTL = 3 * 60 * 60 * 1000;
     var CACHE_NETWORK_ERROR_TTL = 45 * 1000;
-    var CARD_OVERLAY_CACHE_VERSION = '6';
-
-    var DEFAULTS = {
-        rating_show_tmdb: true,
-        rating_show_imdb: true,
-        rating_show_kp: true,
-        rating_show_lampa: false,
-        quality_show: true,
-        type_labels_show: true
-    };
 
     var DEBUG = false;
     function logErr(e) {
         if (!DEBUG) return;
         try { console.error('[cards_style]', e); } catch (e2) {}
-    }
-
-    function safe(fn, label) {
-        try { return fn(); } catch (e) { logErr(e); }
     }
 
     var ratingCache = {
@@ -303,20 +289,38 @@
         var next = movie.next_episode_to_air;
         if (!next.air_date) return;
 
-        var airDate = new Date(next.air_date);
+        var parts = next.air_date.split('-');
+        if (parts.length < 3) return;
+        var targetDate = new Date(parts[0], parts[1] - 1, parts[2]);
         var now = new Date();
-        var diffTime = airDate.getTime() - now.getTime();
-        var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        var diffTime = targetDate.getTime() - today.getTime();
+        var diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
         if (diffDays < 0) return;
 
         var details = $(render).find('.full-start-new__details, .full-start__details');
         if (!details.length) return;
 
         details.find('.clean-next-episode-info').remove();
+        details.contents().filter(function () {
+            return this.nodeType === 3 && /Следующая/i.test(this.nodeValue);
+        }).remove();
+        details.find('span').filter(function () {
+            return /Следующая/i.test($(this).text());
+        }).each(function () {
+            var el = $(this);
+            el.prev('.full-start-new__split, .full-start__split').remove();
+            el.remove();
+        });
 
-        var text = 'Следующая: ' + formatNextEpisodeDate(next.air_date) + ' / Осталось дней: ' + diffDays;
+        var dateText = formatNextEpisodeDate(next.air_date);
+        var labelText = (diffDays === 0)
+            ? 'Следующая серия выходит сегодня: ' + dateText
+            : 'Следующая: ' + dateText + ' / Осталось дней: ' + diffDays;
+
         var split = $('<span class="full-start-new__split clean-next-episode-info">•</span>');
-        var item = $('<span class="clean-next-episode-info">' + text + '</span>');
+        var item = $('<span class="clean-next-episode-info">' + labelText + '</span>');
 
         details.append(split).append(item);
     }
@@ -325,7 +329,8 @@
         fetchQuality(movie, function (quality) {
             if (!quality) return;
             var target = $(render).find('.full-start-new__rate-line, .full-start__rate-line');
-            if (target.length && !target.find('.clean-detail-quality').length) {
+            if (target.length) {
+                target.find('.clean-detail-quality').remove();
                 target.append('<div class="full-start__status clean-detail-quality">' + quality + '</div>');
             }
         });
@@ -388,7 +393,7 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.0.0',
+        version: '1.0.1',
         description: 'Классический стиль карточек, качество и даты выхода серий'
     };
 
