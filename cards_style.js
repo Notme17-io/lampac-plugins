@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v5';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v6';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="55" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="125" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v5_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v6_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -207,18 +207,34 @@
                 var data = typeof resp === 'string' ? JSON.parse(resp) : resp;
                 var releases = (data && data.Results) || [];
                 var maxRes = 0;
-                var isTS = false;
+                var hasCleanDigital = false;
+                var hasTS = false;
+
                 for (var i = 0; i < releases.length; i++) {
-                    var rTitle = (releases[i].Title || '').toLowerCase();
-                    if (/camrip|ts|telecine|telesync|тс/i.test(rTitle)) isTS = true;
+                    var title = (releases[i].Title || '').toLowerCase();
+                    var isCurrentTS = /camrip|телесинк|telesync|telecine|(^|[^a-zа-яё])ts([^a-zа-яё]|$)|(^|[^а-яё])тс([^а-яё]|$)/i.test(title);
+                    var isDigital = /web-?dl|web-?rip|bdrip|bluray|hdrip/i.test(title) && !isCurrentTS;
+
+                    if (isCurrentTS) hasTS = true;
+                    if (isDigital) hasCleanDigital = true;
+
                     var r = (releases[i].info && releases[i].info.quality) || 0;
                     if (r > maxRes) maxRes = r;
                 }
-                if (maxRes >= 2160) quality = '4K';
-                else if (maxRes >= 1080) quality = '1080p';
-                else if (maxRes >= 720) quality = '720p';
-                else if (maxRes > 0) quality = 'SD';
-                else if (isTS) quality = 'TS';
+
+                if (hasTS && !hasCleanDigital) {
+                    quality = 'TS';
+                } else if (maxRes >= 2160) {
+                    quality = '4K';
+                } else if (maxRes >= 1080) {
+                    quality = '1080p';
+                } else if (maxRes >= 720) {
+                    quality = '720p';
+                } else if (maxRes > 0) {
+                    quality = 'SD';
+                } else if (hasTS) {
+                    quality = 'TS';
+                }
             } catch (e) {}
 
             if (!quality && ALLOHA_API_SERVERS.length) {
@@ -469,7 +485,7 @@
         var css = 
             '.card__clean-type{position:absolute!important;left:0.4em!important;top:-0.3em!important;z-index:10!important;padding:0.25em 0.55em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;line-height:1!important;letter-spacing:0.04em!important;text-transform:uppercase!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
             '.card__clean-quality{position:absolute!important;left:0.4em!important;bottom:-0.3em!important;z-index:10!important;padding:0.22em 0.45em!important;font-size:0.8em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;line-height:1!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
-            '.card__clean-votes{position:absolute!important;right:0.4em!important;top:-0.3em!important;bottom:auto!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:1.5px!important;padding:0.2em 0.35em!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
+            '.card__clean-votes{position:absolute!important;right:-0.3em!important;top:-0.3em!important;bottom:auto!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:1.5px!important;padding:0.2em 0.35em!important;background:rgba(0,0,0,0.55)!important;border:1px solid rgba(255,255,255,0.2)!important;border-radius:0.35em!important;box-shadow:0 0.15em 0.4em rgba(0,0,0,0.5)!important;backdrop-filter:blur(6px)!important}\n' +
             '.card__clean-votes .vote-row{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:2.5px!important;line-height:1!important}\n' +
             '.card__clean-votes .vote-num{font-size:0.8em!important;font-weight:700!important;color:#fff!important;min-width:1.5em!important;text-align:right!important}\n' +
             '.card__clean-votes .vote-icon{display:inline-flex!important;width:0.9em!important;height:0.9em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.95!important}\n' +
@@ -479,7 +495,7 @@
             '.clean-detail-quality{margin-left:0.4em!important}\n' +
             '.full-start-new__rate-line, .full-start__rate-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0.4em!important}\n' +
             '.full-start-new__rate-line .full-start__status, .full-start__rate-line .full-start__status{margin-left:0.2em!important}\n' +
-            '.full-start-new__reactions svg, .full-start__reactions svg, .reactions svg, .full-start-new__reactions img, .full-start__reactions img, .reactions img{filter:brightness(0) invert(1)!important;opacity:0.95!important}\n' +
+            '.full-start-new__reactions, .full-start__reactions, .reactions{filter:grayscale(100%) contrast(150%) brightness(1.15)!important;opacity:0.9!important}\n' +
             '.card .card__type,.card .card__quality,.card .card__vote{display:none!important}\n' +
             '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n' +
             '.full-start-new__rate > div, .full-start__rate > div{color:#fff!important}\n';
@@ -547,7 +563,7 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.1.4',
+        version: '1.1.5',
         description: 'Классический стиль карточек, монохромные значки рейтингов, плавающие плашки качества и даты выхода серий'
     };
 
