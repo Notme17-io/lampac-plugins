@@ -375,6 +375,116 @@
         });
     }
 
+    function formatNextDateText(airDate) {
+        if (!airDate) return '';
+        var parts = airDate.split('-');
+        var months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];
+        var day = parseInt(parts[2], 10);
+        var monthIdx = parseInt(parts[1], 10) - 1;
+        var dateStr = day + ' ' + (months[monthIdx] || '');
+
+        var epDate = new Date(parts[0], monthIdx, day);
+        var now = new Date();
+        now.setHours(0,0,0,0);
+        var diffDays = Math.ceil((epDate - now) / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 0) {
+            return 'Следующая: ' + dateStr + ' (Осталось дней: ' + diffDays + ')';
+        } else if (diffDays === 0) {
+            return 'Следующая: Сегодня (' + dateStr + ')';
+        }
+        return '';
+    }
+
+    function findActualNextEpisode(movie, callback) {
+        var ep = movie.next_episode_to_air;
+        var now = new Date();
+        now.setHours(0,0,0,0);
+
+        if (ep && ep.air_date) {
+            var parts = ep.air_date.split('-');
+            var epDate = new Date(parts[0], parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+            if (epDate >= now) {
+                callback(formatNextDateText(ep.air_date));
+                return;
+            }
+        }
+
+        var seasonNum = (ep && ep.season_number) || (movie.number_of_seasons || (movie.seasons && movie.seasons.length));
+        if (!seasonNum || !movie.id) {
+            callback('');
+            return;
+        }
+
+        var tmdbKey = Lampa.Storage.get('tmdb_api_key', '4ef0d7355d9ffb5151e987764708ce96');
+        var url = 'https://api.themoviedb.org/3/tv/' + movie.id + '/season/' + seasonNum + '?api_key=' + tmdbKey + '&language=ru';
+
+        var req = getRequest();
+        req.timeout(5000);
+        req.silent(url, function (data) {
+            releaseRequest(req);
+            var text = '';
+            try {
+                var eps = (data && data.episodes) || [];
+                for (var i = 0; i < eps.length; i++) {
+                    if (eps[i].air_date) {
+                        var p = eps[i].air_date.split('-');
+                        var d = new Date(p[0], parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+                        if (d >= now) {
+                            text = formatNextDateText(eps[i].air_date);
+                            break;
+                        }
+                    }
+                }
+            } catch (e) {}
+            callback(text);
+        }, function () {
+            releaseRequest(req);
+            callback('');
+        });
+    }
+
+    function normalizeMetaRow(details, nextText) {
+        if (!details || !details.length) return;
+        var el = details[0];
+
+        var fullText = $(el).text();
+        fullText = fullText.replace(/Следующая:.*$/i, '').trim();
+
+        var rawSegments = fullText.split(/[•\u2022\u00B7\u25CF]+/);
+        var segments = [];
+        for (var i = 0; i < rawSegments.length; i++) {
+            var seg = rawSegments[i].replace(/^[\s\.\-]+|[\s\.\-]+$/g, '').trim();
+            if (seg) {
+                seg = seg.replace(/\s*\|\s*/g, ', ');
+                segments.push(seg);
+            }
+        }
+
+        if (nextText && nextText.trim()) {
+            segments.push(nextText.trim());
+        }
+
+        if (!segments.length) return;
+
+        var html = segments.join('<span class="clean-dot">•</span>');
+        $(el).html(html);
+    }
+
+    function renderNextEpisodeInfo(render, movie) {
+        var isTV = movie && (movie.type === 'tv' || movie.name || movie.first_air_date || movie.number_of_seasons > 0);
+        if (!isTV) return;
+
+        var scope = $(render);
+        var details = scope.find('.full-start-new__details, .full-start__details');
+        if (!details.length) return;
+
+        findActualNextEpisode(movie, function (text) {
+            if (!document.body.contains(details[0])) return;
+            normalizeMetaRow(details, text);
+        });
+    }
+
     function updateCard(card) {
         if (!card || !card.card_data) return;
         updateTopLeftBadges(card);
@@ -405,23 +515,6 @@
             var qEl = $('<div class="full-start__status clean-detail-quality">' + quality + '</div>');
             rateLine.append(qEl);
         });
-    }
-
-    function renderNextEpisodeInfo(render, movie) {
-        var isTV = movie && (movie.type === 'tv' || movie.name || movie.first_air_date || movie.number_of_seasons > 0);
-        if (!isTV) return;
-
-        var scope = $(render);
-        var details = scope.find('.full-start-new__details, .full-start__details');
-        if (!details.length || details.find('.clean-next-episode').length) return;
-
-        if (movie.next_episode_to_air && movie.next_episode_to_air.air_date) {
-            var ep = movie.next_episode_to_air;
-            var dateStr = ep.air_date.split('-').reverse().join('.');
-            var text = 'Сезон ' + ep.season_number + ', Серия ' + ep.episode_number + ' (' + dateStr + ')';
-            var epEl = $('<div class="clean-next-episode" style="font-size:0.85em;opacity:0.85;margin-top:0.35em;">Следующая серия: <b>' + text + '</b></div>');
-            details.append(epEl);
-        }
     }
 
     function applyDetailLogo(render, movie) {
@@ -497,12 +590,24 @@
             '.card__clean-quality{position:absolute!important;left:0.45em!important;bottom:0.45em!important;z-index:10!important;padding:0.15em 0.38em!important;font-size:0.74em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             '.card__clean-votes{position:absolute!important;right:0.35em!important;top:0.35em!important;bottom:auto!important;z-index:10!important;display:flex!important;align-items:center!important;padding:0.12em 0.32em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;line-height:1!important}\n' +
             '.card__clean-votes .vote-num{font-size:0.68em!important;font-weight:700!important;color:#fff!important}\n' +
+            
+            /* Единый стиль и симметричные отступы для всех точек в строке */
+            '.full-start-new__details, .full-start__details{color:#fff!important}\n' +
+            '.clean-dot{\n' +
+            '  color: #fff!important;\n' +
+            '  opacity: 1!important;\n' +
+            '  font-size: 1em!important;\n' +
+            '  display: inline-block!important;\n' +
+            '  margin: 0 0.55em!important;\n' +
+            '  line-height: inherit!important;\n' +
+            '}\n' +
+            
             '.full-title-logo{display:block!important;max-height:3em!important;max-width:85%!important;width:auto!important;height:auto!important;object-fit:contain!important;filter:drop-shadow(0 0.08em 0.35em rgba(0,0,0,0.75))!important}\n' +
             '.full-start-new__title.has-clean-logo, .full-start__title.has-clean-logo{min-height:3.2em!important;display:flex!important;align-items:center!important}\n' +
             '.full-start-new__poster .card__clean-type, .full-start__poster .card__clean-type{position:absolute!important;left:0.45em!important;top:0.45em!important;width:auto!important;display:inline-block!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;padding:0.18em 0.42em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;margin:0!important;z-index:10!important}\n' +
             '.full-start-new__poster, .full-start__poster{overflow:visible!important}\n' +
             
-            /* Яркие черно-белые смайлики реакций (белые черты остаются четкими) */
+            /* Яркие черно-белые смайлики реакций */
             '.full-start-new__reactions img, .full-start__reactions img, .reactions img, .full-start-new__reactions svg, .full-start__reactions svg, .reactions svg{filter:grayscale(100%) contrast(1.3) brightness(1.1)!important;opacity:0.9!important}\n' +
             '.full-start-new__reactions .counter, .full-start__reactions .counter, .reactions .counter, .full-start-new__reactions span, .full-start__reactions span, .reactions span{color:#fff!important;opacity:1!important}\n' +
             
@@ -517,8 +622,7 @@
             '.full-start__status:first-of-type{margin-left:1.25em!important}\n' +
             
             '.card .card__type,.card .card__quality,.card .card__vote,.full-start__poster .card__type,.full-start-new__poster .card__type{display:none!important}\n' +
-            '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n' +
-            '.clean-split-dot{font-size:1.15em!important;font-weight:700!important;opacity:0.85!important;margin:0 0.35em!important}\n';
+            '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n';
         
         var style = document.createElement('style');
         style.id = 'cards-style-theme';
@@ -583,6 +687,7 @@
                     applyDetailLogo(fullRender, curMovie);
                     applyDetailRatingIcons(fullRender, curMovie);
                     updateDetailPosterBadge(curMovie, fullRender);
+                    renderNextEpisodeInfo(fullRender, curMovie);
                 }
             }
         }, 300);
@@ -590,8 +695,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.4.4',
-        description: 'Стиль карточек, контрастные монохромные смайлики реакций, корректировка отступов'
+        version: '1.6.4',
+        description: 'Стиль карточек, единый формат следующей серии'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
