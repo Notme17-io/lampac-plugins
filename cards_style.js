@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v13';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v14';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="62" font-size="60" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="128" font-size="60" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v13_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v14_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -548,7 +548,7 @@
         var css = 
             '.card__clean-top-left{position:absolute!important;left:0.3em!important;top:-0.25em!important;z-index:10!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:2px!important;width:fit-content!important}\n' +
             '.card__clean-type{position:static!important;padding:0.18em 0.42em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;letter-spacing:0.03em!important;text-transform:uppercase!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
-            '.card__clean-year{position:static!important;padding:0.15em 0.35em!important;font-size:0.68em!important;font-weight:700!important;color:rgba(255,255,255,0.9)!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;text-align:center!important}\n' +
+            '.card__clean-year{position:static!important;padding:0.12em 0.32em!important;font-size:0.68em!important;font-weight:700!important;color:rgba(255,255,255,0.9)!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;text-align:center!important}\n' +
             
             '.card__clean-quality{position:absolute!important;left:0.3em!important;bottom:-0.25em!important;z-index:10!important;padding:0.18em 0.38em!important;font-size:0.76em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             
@@ -610,6 +610,7 @@
                                 updateDetailPosterBadge(movie, render);
                                 applyDetailRatingIcons(render, movie);
                                 renderDetailQuality(movie, render);
+                                renderNextEpisodeInfo(movie, render);
                             }
                         }, t);
                     });
@@ -635,7 +636,7 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.2.2',
+        version: '1.2.3',
         description: 'Классический стиль карточек, центрированный год, выровненные рейтинги и статус выхода серий'
     };
 
