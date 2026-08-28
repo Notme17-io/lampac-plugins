@@ -33,7 +33,7 @@
       '.nova-t-chip.focus{background:rgba(255,255,255,0.16)!important;box-shadow:inset 0 0 0 2px #fff!important;color:#fff!important}\n' +
       '.nova-t-chip svg{width:1.15em!important;height:1.15em!important;max-width:1.15em!important;max-height:1.15em!important;flex-shrink:0!important}\n' +
       
-      /* Стилизация оригинальных карточек Lampa */
+      /* Нативная стилизация торрент-элементов Lampa */
       'body.nova-torrent-scope .torrent-item{display:block!important;position:relative!important;padding:1.1em 1.3em!important;border-radius:.9em!important;background:rgba(255,255,255,0.05)!important;margin-bottom:.8em!important;color:#fff!important;box-sizing:border-box!important;border:none!important}\n' +
       'body.nova-torrent-scope .torrent-item.focus{background:rgba(255,255,255,0.14)!important;box-shadow:inset 0 0 0 2px #fff!important;color:#fff!important}\n' +
       'body.nova-torrent-scope .torrent-item__title{font-size:1.15em!important;font-weight:600!important;line-height:1.45!important;margin-bottom:.65em!important;word-break:break-word!important;white-space:normal!important;color:#fff!important;height:auto!important;max-height:none!important;overflow:visible!important}\n' +
