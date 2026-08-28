@@ -23,7 +23,8 @@
       '.nova-t-hero__bg--loaded img{opacity:1}\n' +
       '.nova-t-hero__shade{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,rgba(10,11,17,0.96) 0%,rgba(10,11,17,0.75) 45%,rgba(10,11,17,0.25) 80%,rgba(10,11,17,0) 100%)}\n' +
       '.nova-t-hero__body{position:relative;padding:1.6em 2em;max-width:75%}\n' +
-      '.nova-t-hero__title{font-size:2.2em;font-weight:700;line-height:1.15;margin-bottom:.3em;color:#fff;text-shadow:0 .06em .5em rgba(0,0,0,.8)}\n' +
+      '.nova-t-hero__title{font-size:2.2em;font-weight:700;line-height:1.15;margin-bottom:.3em;color:#fff;text-shadow:0 .06em .5em rgba(0,0,0,.8);min-height:2.4em;display:flex;align-items:center}\n' +
+      '.nova-t-hero__logo{display:block;max-height:2.6em;max-width:80%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 0.08em 0.35em rgba(0,0,0,0.75))}\n' +
       '.nova-t-hero__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.8em;font-size:1.05em;margin-bottom:.5em;color:#fff;opacity:.85}\n' +
       '.nova-t-hero__genres{font-size:.95em;color:rgba(255,255,255,0.65);margin-bottom:.6em}\n' +
       '.nova-t-hero__descr{font-size:.95em;line-height:1.4;color:rgba(255,255,255,0.75);max-height:8em;overflow-y:auto}\n' +
@@ -67,6 +68,31 @@
     try { return Lampa.TMDB.image('t/p/w1280' + path); } catch (e) { return ''; }
   }
 
+  function fetchLogo(movie, callback) {
+    if (!movie || !movie.id) return callback('');
+    var type = (movie.name || movie.first_air_date || movie.number_of_seasons) ? 'tv' : 'movie';
+    var tmdbKey = Lampa.Storage.get('tmdb_api_key', '4ef0d7355d9ffb5151e987764708ce96');
+    var url = 'https://api.themoviedb.org/3/' + type + '/' + movie.id + '/images?api_key=' + tmdbKey + '&include_image_language=ru,en,null';
+
+    var req = new Lampa.Reguest();
+    req.timeout(5000);
+    req.silent(url, function (data) {
+        var logoPath = '';
+        try {
+            var logos = (data && data.logos) || [];
+            if (logos.length) {
+                var ruLogo = logos.find(function (l) { return l.iso_639_1 === 'ru'; });
+                var enLogo = logos.find(function (l) { return l.iso_639_1 === 'en'; });
+                var best = ruLogo || enLogo || logos[0];
+                if (best && best.file_path) logoPath = 'https://image.tmdb.org/t/p/w500' + best.file_path;
+            }
+        } catch (e) {}
+        callback(logoPath);
+    }, function () {
+        callback('');
+    });
+  }
+
   function buildHero(movie) {
     var bg = getBackdrop(movie);
     var title = (movie && (movie.title || movie.name)) || 'Торренты';
@@ -98,6 +124,12 @@
       img.onload = function () { hero.find('.nova-t-hero__bg').addClass('nova-t-hero__bg--loaded'); };
       if (img.complete) hero.find('.nova-t-hero__bg').addClass('nova-t-hero__bg--loaded');
     }
+
+    fetchLogo(movie, function (logoUrl) {
+      if (logoUrl) {
+        hero.find('.nova-t-hero__title').html('<img src="' + logoUrl + '" class="nova-t-hero__logo" alt="">');
+      }
+    });
 
     return hero;
   }
