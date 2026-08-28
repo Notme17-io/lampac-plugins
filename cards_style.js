@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v18';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v19';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="70" font-size="58" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="136" font-size="58" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v18_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v19_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -179,7 +179,6 @@
         }, false);
     }
 
-    /* TMDB Logo Fetcher */
     function fetchTmdbLogo(movie, callback) {
         if (!movie || !movie.id) return callback('');
         var key = 'logo_' + movie.id;
@@ -585,13 +584,15 @@
     function initStyles() {
         if (document.getElementById('cards-style-theme')) return;
         var css = 
-            '.card__clean-top-left{position:absolute!important;left:-0.25em!important;top:-0.25em!important;z-index:10!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:2px!important;width:fit-content!important}\n' +
+            '.card__clean-top-left{position:absolute!important;left:0.35em!important;top:0.35em!important;z-index:10!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:2px!important;width:fit-content!important}\n' +
             '.card__clean-type{position:static!important;padding:0.18em 0.42em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;letter-spacing:0.03em!important;text-transform:uppercase!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;white-space:nowrap!important}\n' +
             '.card__clean-year{position:static!important;padding:0.12em 0.32em!important;font-size:0.68em!important;font-weight:700!important;color:rgba(255,255,255,0.9)!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;text-align:center!important;white-space:nowrap!important}\n' +
             
-            '.card__clean-quality{position:absolute!important;left:-0.25em!important;bottom:-0.25em!important;z-index:10!important;padding:0.12em 0.32em!important;font-size:0.68em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
+            /* Качество строго внутри обложки */
+            '.card__clean-quality{position:absolute!important;left:0.35em!important;bottom:0.35em!important;z-index:10!important;padding:0.12em 0.32em!important;font-size:0.7em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             
-            '.card__clean-votes{position:absolute!important;right:-0.25em!important;top:-0.25em!important;bottom:auto!important;z-index:10!important;display:flex!important;align-items:center!important;padding:0.12em 0.32em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;line-height:1!important}\n' +
+            /* Оценка строго внутри обложки */
+            '.card__clean-votes{position:absolute!important;right:0.35em!important;top:0.35em!important;bottom:auto!important;z-index:10!important;display:flex!important;align-items:center!important;padding:0.12em 0.32em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;line-height:1!important}\n' +
             '.card__clean-votes .vote-num{font-size:0.68em!important;font-weight:700!important;color:#fff!important}\n' +
             
             /* Стили логотипа в карточке */
@@ -684,8 +685,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.3.1',
-        description: 'Классический стиль карточек, компактные угловые бейджи без звезд, логотипы в заголовках'
+        version: '1.3.2',
+        description: 'Классический стиль карточек, аккуратные внутренние бейджи, логотипы TMDB'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
