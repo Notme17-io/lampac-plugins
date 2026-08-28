@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v11';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v12';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="55" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="125" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v11_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v12_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -465,10 +465,26 @@
         return Math.round((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     }
 
+    function cleanGenrePipes(details) {
+        details.contents().each(function () {
+            if (this.nodeType === 3 && this.nodeValue.indexOf('|') !== -1) {
+                this.nodeValue = this.nodeValue.replace(/\s*\|\s*/g, ', ');
+            }
+        });
+        details.find('*').each(function () {
+            var el = $(this);
+            if (!el.hasClass('clean-next-episode-info') && el.text().indexOf('|') !== -1) {
+                el.text(el.text().replace(/\s*\|\s*/g, ', '));
+            }
+        });
+    }
+
     function renderNextEpisodeInfo(movie, render) {
         if (!movie || !render) return;
         var details = $(render).find('.full-start-new__details, .full-start__details');
         if (!details.length) return;
+
+        cleanGenrePipes(details);
 
         details.find('.clean-next-episode-info').remove();
         details.contents().filter(function () {
@@ -494,7 +510,7 @@
             if (nextDiff === 0 || nextDiff === -1) {
                 labelText = 'Сегодня вышла серия: ' + nextEp;
             } else if (nextDiff > 0) {
-                labelText = 'Следующая серия: ' + nextEp + ' | ' + formatNextEpisodeDate(next.air_date) + ' (осталось ' + formatDaysLeft(nextDiff) + ')';
+                labelText = 'Следующая серия: ' + nextEp + ' • ' + formatNextEpisodeDate(next.air_date) + ' (осталось ' + formatDaysLeft(nextDiff) + ')';
             }
         }
 
@@ -506,7 +522,7 @@
         }
 
         if (labelText) {
-            var split = $('<span class="full-start-new__split full-start__split clean-next-episode-info">•</span>');
+            var split = $('<span class="full-start-new__split full-start__split clean-next-episode-info clean-split-dot">•</span>');
             var item = $('<span class="clean-next-episode-info">' + labelText + '</span>');
             details.append(split).append(item);
         }
@@ -536,22 +552,23 @@
         if (document.getElementById('cards-style-theme')) return;
         var css = 
             '.card__clean-type{position:absolute!important;left:0.3em!important;top:-0.25em!important;z-index:10!important;padding:0.18em 0.42em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;letter-spacing:0.03em!important;text-transform:uppercase!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
-            '.card__clean-year{position:absolute!important;right:-0.25em!important;top:-0.25em!important;z-index:10!important;padding:0.18em 0.38em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
+            '.card__clean-year{position:absolute!important;left:0.3em!important;top:1.15em!important;z-index:10!important;padding:0.18em 0.42em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;text-align:center!important}\n' +
             '.card__clean-quality{position:absolute!important;left:0.3em!important;bottom:-0.25em!important;z-index:10!important;padding:0.18em 0.38em!important;font-size:0.78em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
-            '.card__clean-votes{position:absolute!important;right:-0.25em!important;top:1.15em!important;bottom:auto!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:1.2px!important;padding:0.15em 0.28em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
+            '.card__clean-votes{position:absolute!important;right:-0.25em!important;top:-0.25em!important;bottom:auto!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:1.2px!important;padding:0.15em 0.28em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             '.card__clean-votes .vote-row{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:2px!important;line-height:1!important}\n' +
             '.card__clean-votes .vote-num{font-size:0.76em!important;font-weight:700!important;color:#fff!important;min-width:1.4em!important;text-align:right!important}\n' +
             '.card__clean-votes .vote-icon{display:inline-flex!important;width:0.85em!important;height:0.85em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.95!important}\n' +
             '.card__clean-votes .vote-icon svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
             '.detail-icon-svg{display:inline-flex!important;width:1.25em!important;height:1.25em!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;color:#fff!important;opacity:0.95!important}\n' +
             '.detail-icon-svg svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
-            '.clean-detail-quality{margin-left:0.4em!important}\n' +
-            '.full-start-new__rate-line, .full-start__rate-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0.4em!important}\n' +
-            '.full-start-new__rate-line .full-start__status, .full-start__rate-line .full-start__status{margin-left:0.2em!important}\n' +
+            '.clean-detail-quality{margin-left:0!important}\n' +
+            '.full-start-new__rate-line, .full-start__rate-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0.28em!important}\n' +
+            '.full-start-new__rate-line .full-start__status, .full-start__rate-line .full-start__status, .full-start-new__rate, .full-start__rate{margin:0!important}\n' +
             '.full-start-new__reactions, .full-start__reactions, .reactions{filter:grayscale(100%) contrast(150%) brightness(1.15)!important;opacity:0.9!important}\n' +
             '.card .card__type,.card .card__quality,.card .card__vote{display:none!important}\n' +
             '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n' +
-            '.full-start-new__rate > div, .full-start__rate > div{color:#fff!important}\n';
+            '.full-start-new__rate > div, .full-start__rate > div{color:#fff!important}\n' +
+            '.clean-split-dot{font-size:1.15em!important;font-weight:700!important;opacity:0.85!important;margin:0 0.35em!important}\n';
         
         var style = document.createElement('style');
         style.id = 'cards-style-theme';
@@ -591,6 +608,7 @@
                                 updateDetailPosterBadge(movie, render);
                                 applyDetailRatingIcons(render, movie);
                                 renderDetailQuality(movie, render);
+                                renderNextEpisodeInfo(movie, render);
                             }
                         }, t);
                     });
@@ -616,8 +634,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.2.0',
-        description: 'Классический стиль карточек, бейдж года, точный статус выхода серий и монохромные значки рейтингов'
+        version: '1.2.1',
+        description: 'Классический стиль карточек, бейдж года слева, компактная строка рейтинга и статус выхода серий'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
