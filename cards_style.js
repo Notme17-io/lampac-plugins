@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v10';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v11';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="55" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="125" font-size="65" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v10_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v11_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -437,8 +437,8 @@
         return abs + ' ' + word;
     }
 
-    function getRussianEpisodeDetails(ep, movie) {
-        if (!ep) return { main: '', season: '' };
+    function getSimpleEpisodeText(ep, movie) {
+        if (!ep) return '';
         var s = ep.season_number || 1;
         var e = ep.episode_number || 1;
         var totalInSeason = 0;
@@ -452,13 +452,7 @@
             }
         }
 
-        var main = 'Серия ' + e + (totalInSeason > 0 ? ' из ' + totalInSeason : '');
-        var season = 'Сезон ' + s;
-
-        return {
-            main: main,
-            season: season
-        };
+        return e + (totalInSeason > 0 ? ' из ' + totalInSeason : '');
     }
 
     function parseDateDiff(dateStr) {
@@ -496,23 +490,23 @@
         var lastDiff = last && last.air_date ? parseDateDiff(last.air_date) : null;
 
         if (nextDiff !== null) {
-            var nextInfo = getRussianEpisodeDetails(next, movie);
+            var nextEp = getSimpleEpisodeText(next, movie);
             if (nextDiff === 0 || nextDiff === -1) {
-                labelText = 'Сегодня вышла: ' + nextInfo.main + ' • ' + nextInfo.season;
+                labelText = 'Сегодня вышла серия: ' + nextEp;
             } else if (nextDiff > 0) {
-                labelText = 'Следующая: ' + nextInfo.main + ' • ' + nextInfo.season + ' • ' + formatNextEpisodeDate(next.air_date) + ' (осталось ' + formatDaysLeft(nextDiff) + ')';
+                labelText = 'Следующая серия: ' + nextEp + ' | ' + formatNextEpisodeDate(next.air_date) + ' (осталось ' + formatDaysLeft(nextDiff) + ')';
             }
         }
 
         if (!labelText && lastDiff !== null) {
-            var lastInfo = getRussianEpisodeDetails(last, movie);
+            var lastEp = getSimpleEpisodeText(last, movie);
             if (lastDiff === 0 || lastDiff === -1) {
-                labelText = 'Сегодня вышла: ' + lastInfo.main + ' • ' + lastInfo.season;
+                labelText = 'Сегодня вышла серия: ' + lastEp;
             }
         }
 
         if (labelText) {
-            var split = $('<span class="full-start-new__split clean-next-episode-info">•</span>');
+            var split = $('<span class="full-start-new__split full-start__split clean-next-episode-info">•</span>');
             var item = $('<span class="clean-next-episode-info">' + labelText + '</span>');
             details.append(split).append(item);
         }
@@ -544,7 +538,7 @@
             '.card__clean-type{position:absolute!important;left:0.3em!important;top:-0.25em!important;z-index:10!important;padding:0.18em 0.42em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;letter-spacing:0.03em!important;text-transform:uppercase!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             '.card__clean-year{position:absolute!important;right:-0.25em!important;top:-0.25em!important;z-index:10!important;padding:0.18em 0.38em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             '.card__clean-quality{position:absolute!important;left:0.3em!important;bottom:-0.25em!important;z-index:10!important;padding:0.18em 0.38em!important;font-size:0.78em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
-            '.card__clean-votes{position:absolute!important;right:-0.25em!important;top:1.45em!important;bottom:auto!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:1.2px!important;padding:0.15em 0.28em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
+            '.card__clean-votes{position:absolute!important;right:-0.25em!important;top:1.15em!important;bottom:auto!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:1.2px!important;padding:0.15em 0.28em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             '.card__clean-votes .vote-row{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:2px!important;line-height:1!important}\n' +
             '.card__clean-votes .vote-num{font-size:0.76em!important;font-weight:700!important;color:#fff!important;min-width:1.4em!important;text-align:right!important}\n' +
             '.card__clean-votes .vote-icon{display:inline-flex!important;width:0.85em!important;height:0.85em!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important;color:#fff!important;opacity:0.95!important}\n' +
@@ -622,8 +616,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.1.9',
-        description: 'Классический стиль карточек, бейдж года, форматирование дат серий и монохромные значки рейтингов'
+        version: '1.2.0',
+        description: 'Классический стиль карточек, бейдж года, точный статус выхода серий и монохромные значки рейтингов'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
