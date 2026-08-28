@@ -502,8 +502,8 @@
             '.full-start-new__poster .card__clean-type, .full-start__poster .card__clean-type{position:absolute!important;left:0.45em!important;top:0.45em!important;width:auto!important;display:inline-block!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;padding:0.18em 0.42em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;margin:0!important;z-index:10!important}\n' +
             '.full-start-new__poster, .full-start__poster{overflow:visible!important}\n' +
             
-            /* Черно-белые смайлики реакций и белые цифры */
-            '.full-start-new__reactions img, .full-start__reactions img, .reactions img, .full-start-new__reactions svg, .full-start__reactions svg, .reactions svg{filter:grayscale(1) brightness(0.8)!important;opacity:0.75!important}\n' +
+            /* Яркие черно-белые смайлики реакций (белые черты остаются четкими) */
+            '.full-start-new__reactions img, .full-start__reactions img, .reactions img, .full-start-new__reactions svg, .full-start__reactions svg, .reactions svg{filter:grayscale(100%) contrast(1.3) brightness(1.1)!important;opacity:0.9!important}\n' +
             '.full-start-new__reactions .counter, .full-start__reactions .counter, .reactions .counter, .full-start-new__reactions span, .full-start__reactions span, .reactions span{color:#fff!important;opacity:1!important}\n' +
             
             '.full-start-new__button::after, .full-start__button::after, .full-start-new__button::before, .full-start__button::before, .button--navigation::after, .button--navigation::before, .button__focus{display:none!important;content:none!important}\n' +
@@ -511,7 +511,11 @@
             '.detail-icon-svg svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
             '.detail-icon-svg--tmdb{transform:translateY(0.5px)!important}\n' +
             '.clean-detail-quality{margin-left:0!important}\n' +
-            '.full-start-new__rate-line, .full-start__rate-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0.35em!important}\n' +
+            
+            /* Дистанции между оценками и статусами */
+            '.full-start-new__rate-line, .full-start__rate-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0.25em!important}\n' +
+            '.full-start__status:first-of-type{margin-left:1.25em!important}\n' +
+            
             '.card .card__type,.card .card__quality,.card .card__vote,.full-start__poster .card__type,.full-start-new__poster .card__type{display:none!important}\n' +
             '.full-start__status,.full-start-new__rate,.full-start__rate{color:#fff!important}\n' +
             '.clean-split-dot{font-size:1.15em!important;font-weight:700!important;opacity:0.85!important;margin:0 0.35em!important}\n';
@@ -586,8 +590,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.4.3',
-        description: 'Классический стиль карточек, монохромные смайлики реакций, белые цифры'
+        version: '1.4.4',
+        description: 'Стиль карточек, контрастные монохромные смайлики реакций, корректировка отступов'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
