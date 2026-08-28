@@ -41,27 +41,34 @@
       'body.nova-torrent-scope .torrent-item.focus{background:rgba(255,255,255,0.14)!important;box-shadow:inset 0 0 0 2px #fff!important}\n' +
       'body.nova-torrent-scope .nova-t-item-wrap{display:flex;align-items:stretch;width:100%}\n' +
       
-      /* Левый баннер-постер */
-      'body.nova-torrent-scope .nova-t-thumb{position:relative;width:9.5em;flex-shrink:0;background:rgba(0,0,0,0.4);overflow:hidden}\n' +
+      /* Левый фиксированный постер */
+      'body.nova-torrent-scope .nova-t-thumb{position:relative;width:6.8em;min-width:6.8em;height:9.6em;max-height:9.6em;flex-shrink:0;background:rgba(0,0,0,0.35);overflow:hidden;align-self:flex-start}\n' +
       'body.nova-torrent-scope .nova-t-thumb img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}\n' +
       'body.nova-torrent-scope .nova-t-thumb--loaded img{opacity:1}\n' +
-      'body.nova-torrent-scope .nova-t-thumb__overlay{position:absolute;bottom:0.4em;left:0.4em;display:flex;align-items:center;gap:0.25em;background:rgba(10,11,17,0.75);border:1px solid rgba(255,255,255,0.2);padding:0.15em 0.4em;border-radius:0.3em;line-height:1;backdrop-filter:blur(4px);z-index:2}\n' +
-      'body.nova-torrent-scope .nova-t-thumb__s{font-size:0.85em;font-weight:700;color:#fff}\n' +
-      'body.nova-torrent-scope .nova-t-thumb__e{font-size:0.8em;font-weight:600;color:rgba(255,255,255,0.85)}\n' +
       
-      /* Контентная часть */
-      'body.nova-torrent-scope .nova-t-item-main{flex-grow:1;padding:1em 1.2em;min-width:0;display:flex;flex-direction:column;justify-content:center}\n' +
-      'body.nova-torrent-scope .torrent-item__title{font-size:1.15em!important;font-weight:600!important;line-height:1.45!important;margin-bottom:.65em!important;word-break:break-word!important;white-space:normal!important;color:#fff!important;height:auto!important;max-height:none!important;overflow:visible!important}\n' +
-      'body.nova-torrent-scope .torrent-item__details{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:.45em!important;margin-bottom:.7em!important}\n' +
-      'body.nova-torrent-scope .torrent-item__size{font-size:1.05em!important;font-weight:700!important;padding:.2em .55em!important;border-radius:.35em!important;background:rgba(255,255,255,0.12)!important;color:#fff!important;margin-left:auto!important}\n' +
+      /* Плашка в правом верхнем углу постера */
+      'body.nova-torrent-scope .nova-t-thumb__overlay{position:absolute;top:0.4em;right:0.4em;bottom:auto;left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:0.1em;background:rgba(10,11,17,0.85);border:1px solid rgba(255,255,255,0.2);padding:0.2em 0.4em;border-radius:0.35em;line-height:1.15;backdrop-filter:blur(4px);z-index:3;text-align:right}\n' +
+      'body.nova-torrent-scope .nova-t-thumb__s{font-size:0.75em;font-weight:700;color:#fff;white-space:nowrap}\n' +
+      'body.nova-torrent-scope .nova-t-thumb__e{font-size:0.7em;font-weight:600;color:rgba(255,255,255,0.85);white-space:nowrap}\n' +
       
-      /* Скрываем дублирующийся старый прямоугольник S/E */
+      /* Контентная часть раздачи */
+      'body.nova-torrent-scope .nova-t-item-main{flex-grow:1;padding:0.9em 1.2em;min-width:0;display:flex;flex-direction:column;justify-content:center}\n' +
+      'body.nova-torrent-scope .torrent-item__title{font-size:1.15em!important;font-weight:600!important;line-height:1.45!important;margin-bottom:.55em!important;word-break:break-word!important;white-space:normal!important;color:#fff!important;height:auto!important;max-height:none!important;overflow:visible!important}\n' +
+      'body.nova-torrent-scope .torrent-item__details{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:.45em!important;margin-bottom:.55em!important}\n' +
+      
+      /* Плашка Сезон • Серии рядом с тегами */
+      'body.nova-torrent-scope .nova-t-inline-serial{display:inline-flex;align-items:center;padding:0.2em 0.55em;border-radius:0.35em;background:rgba(255,255,255,0.12);font-size:0.85em;font-weight:600;color:#fff;margin-right:0.4em}\n' +
       'body.nova-torrent-scope .torrent-serial{display:none!important}\n' +
       
+      'body.nova-torrent-scope .torrent-item__size{font-size:1.05em!important;font-weight:700!important;padding:.2em .55em!important;border-radius:.35em!important;background:rgba(255,255,255,0.12)!important;color:#fff!important;margin-left:auto!important}\n' +
+      
       /* Нижняя инфо-строка */
-      'body.nova-torrent-scope .nova-t-item-main > div:last-child{display:flex;align-items:center;flex-wrap:wrap;gap:1.2em;border-top:1px solid rgba(255,255,255,0.08);padding-top:.6em;margin-top:.4em;font-size:.9em;opacity:.8;color:#fff!important}\n' +
+      'body.nova-torrent-scope .nova-t-item-main > div:last-child{display:flex;align-items:center;flex-wrap:wrap;gap:1.2em;border-top:1px solid rgba(255,255,255,0.08);padding-top:.55em;margin-top:.35em;font-size:.9em;opacity:.8;color:#fff!important}\n' +
       'body.nova-torrent-scope .torrent-item.focus .nova-t-item-main > div:last-child{opacity:1;border-top-color:rgba(255,255,255,0.15)}\n' +
-      'body.nova-torrent-scope .torrent-item__seeds, body.nova-torrent-scope .torrent-item__grabs, body.nova-torrent-scope .torrent-item__peers{color:#fff!important;font-weight:600!important}\n';
+      'body.nova-torrent-scope .torrent-item__seeds, body.nova-torrent-scope .torrent-item__grabs, body.nova-torrent-scope .torrent-item__peers{color:#fff!important;font-weight:600!important}\n' +
+      
+      /* Корректное позиционирование стандартного индикатора просмотра */
+      'body.nova-torrent-scope .torrent-item__viewed, body.nova-torrent-scope .torrent-item > .viewed{position:absolute!important;top:0.4em!important;left:0.4em!important;z-index:4!important}\n';
 
     var style = document.createElement('style');
     style.id = 'nova-torrent-skin-css';
@@ -157,6 +164,27 @@
     return hero;
   }
 
+  function parseSerialData(titleText, item) {
+    var sOld = item.find('.torrent-serial__season').text().replace(/[^\d]/g, '').trim();
+    var eOld = item.find('.torrent-serial__episode').text().replace(/[^\d\-\~]/g, '').trim();
+
+    var sMatch = titleText.match(/(?:сезон[:\s]*|season[:\s]*|\[s|\bs)(\d+)/i) || 
+                 titleText.match(/\[(\d+)x/i) || 
+                 titleText.match(/\b(\d+)\s*сезон/i);
+
+    var eMatch = titleText.match(/(?:сери[ия][:\s]*|эпизод[ы]?[:\s]*|episode[s]?[:\s]*|ep[:\s]*|\[e|\be)([\d\-\~]+)/i) || 
+                 titleText.match(/\[\d+x([\d\-\~]+)/i) || 
+                 titleText.match(/\b(\d+[-–\~]\d+|\d+)\s+из\s+\d+/i);
+
+    var season = sOld || (sMatch ? parseInt(sMatch[1], 10) : '');
+    var episode = eOld || (eMatch ? eMatch[1].replace('–', '-') : '');
+
+    return {
+      season: season ? String(season) : '',
+      episode: episode ? String(episode) : ''
+    };
+  }
+
   function modifyTorrents(explorer, movie) {
     var posterImg = getPoster(movie);
 
@@ -165,17 +193,8 @@
       item.attr('data-nova-mod', '1');
       
       var titleText = item.find('.torrent-item__title').text();
-      
-      // Ищем сезон и серию из текста или стандартного блока
-      var sMatch = titleText.match(/(?:сезон|season|s)\s*(\d+)/i) || titleText.match(/\[[Ss](\d+)\]/) || titleText.match(/\[(\d+)x\d+/i);
-      var eMatch = titleText.match(/(?:сери[ия]|episode|ep|e)\s*([\d\-\~]+)/i) || titleText.match(/\[[Ee]([\d\-\~]+)\]/) || titleText.match(/\[\d+x([\d\-\~]+)/i);
-      
-      var sOld = item.find('.torrent-serial__season').text().trim();
-      var eOld = item.find('.torrent-serial__episode').text().trim();
+      var serial = parseSerialData(titleText, item);
 
-      var season = sOld || (sMatch ? sMatch[1] : '');
-      var episode = eOld || (eMatch ? eMatch[1] : '');
-      
       var wrap = $('<div class="nova-t-item-wrap"></div>');
       var thumb = $('<div class="nova-t-thumb"><img src="' + posterImg + '" alt=""></div>');
       var main = $('<div class="nova-t-item-main"></div>');
@@ -186,13 +205,26 @@
         if (img.complete) thumb.addClass('nova-t-thumb--loaded');
       }
 
-      if (season || episode) {
+      // Плашка в правом верхнем углу баннера
+      if (serial.season || serial.episode) {
         var badge = $('<div class="nova-t-thumb__overlay"></div>');
-        if (season) badge.append('<span class="nova-t-thumb__s">S' + season + '</span>');
-        if (episode) badge.append('<span class="nova-t-thumb__e">' + episode + '</span>');
+        if (serial.season) badge.append('<span class="nova-t-thumb__s">Сезон ' + serial.season + '</span>');
+        if (serial.episode) badge.append('<span class="nova-t-thumb__e">Сери' + (serial.episode.indexOf('-') !== -1 ? 'и ' : 'я ') + serial.episode + '</span>');
         thumb.append(badge);
       }
       
+      // Плашка формата "Сезон X • Серии Y-Z" в строке деталей
+      if (serial.season || serial.episode) {
+        var inlineText = '';
+        if (serial.season) inlineText += 'Сезон ' + serial.season;
+        if (serial.episode) inlineText += (inlineText ? ' • ' : '') + 'Серии ' + serial.episode;
+        
+        var details = item.find('.torrent-item__details');
+        if (details.length) {
+          details.prepend('<div class="nova-t-inline-serial">' + inlineText + '</div>');
+        }
+      }
+
       main.append(item.contents());
       wrap.append(thumb).append(main);
       item.append(wrap);
