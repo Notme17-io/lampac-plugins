@@ -7,6 +7,7 @@
   var ICON = {
     seed: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>',
     peer: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4" stroke-linecap="round"/></svg>',
     sort: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M6 12h12M10 18h4" stroke-linecap="round"/></svg>',
     filter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
@@ -34,34 +35,27 @@
       '.nova-t-chip.focus{background:rgba(255,255,255,0.16)!important;box-shadow:inset 0 0 0 2px #fff!important;color:#fff!important}\n' +
       '.nova-t-chip svg{width:1.15em!important;height:1.15em!important;max-width:1.15em!important;max-height:1.15em!important;flex-shrink:0!important}\n' +
       
-      /* Карточки в точном стиле Nova Skin */
-      '.nova-t-card{position:relative;display:flex;align-items:center;padding:.7em;border-radius:.9em;background:rgba(255,255,255,0.05);margin-bottom:.7em;color:#fff;box-sizing:border-box}\n' +
+      '.nova-t-card{position:relative;display:flex;align-items:flex-start;padding:1em 1.2em;border-radius:.9em;background:rgba(255,255,255,0.05);margin-bottom:.8em;color:#fff;box-sizing:border-box}\n' +
       '.nova-t-card.focus{background:rgba(255,255,255,0.14)!important;box-shadow:inset 0 0 0 2px #fff!important;color:#fff!important}\n' +
       
-      '.nova-t-card__thumb{position:relative;width:10.5em;height:5.9em;flex-shrink:0;border-radius:.5em;overflow:hidden;background:rgba(0,0,0,0.45)}\n' +
+      '.nova-t-card__thumb{position:relative;width:8.5em;height:5.2em;flex-shrink:0;border-radius:.5em;overflow:hidden;background:rgba(0,0,0,0.45);margin-right:1.2em;margin-top:.2em}\n' +
       '.nova-t-card__thumb img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.65}\n' +
-      '.nova-t-card__num{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:700;color:#fff;text-shadow:0 .05em .2em rgba(0,0,0,.9);z-index:2}\n' +
+      '.nova-t-card__num{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:1.2em;font-weight:700;color:#fff;text-shadow:0 .05em .2em rgba(0,0,0,.9);z-index:2}\n' +
       '.nova-t-card__num>span{display:inline-block;padding:.08em .4em;border-radius:.35em;background:rgba(10,11,17,0.65);box-shadow:0 .12em .45em rgba(0,0,0,.5)}\n' +
       
-      '.nova-t-card__body{flex:1;flex-grow:1;padding:0 1.2em;min-width:1em;overflow:hidden}\n' +
-      '.nova-t-card__title{font-size:1.2em;font-weight:600;line-height:1.35;margin-bottom:.3em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}\n' +
-      '.nova-t-card__meta{font-size:.92em;line-height:1.4;opacity:.65;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}\n' +
-      '.nova-t-card__meta .nova-t-dot{margin:0 .4em;opacity:.6}\n' +
+      '.nova-t-card__main{flex:1;min-width:0}\n' +
+      '.nova-t-card__title{font-size:1.12em;font-weight:600;line-height:1.45;margin-bottom:.6em;word-break:break-word;color:#fff}\n' +
+      '.nova-t-card__tags{display:flex;align-items:center;flex-wrap:wrap;gap:.45em;margin-bottom:.6em}\n' +
       
-      '.nova-t-card__line{position:static;height:.22em;margin-top:.55em;border-radius:.2em;background:rgba(255,255,255,0.85);width:100%}\n' +
-      
-      '.nova-t-card__side{flex-shrink:0;text-align:right;padding-right:.7em;display:flex;flex-direction:column;align-items:flex-end;gap:.35em}\n' +
-      '.nova-t-badge{display:inline-block;padding:.2em .55em;border-radius:.35em;background:rgba(255,255,255,0.18);font-size:.78em;font-weight:700;letter-spacing:.04em;line-height:1.4}\n' +
-      '.nova-t-card__stats{display:flex;align-items:center;gap:.7em;font-size:.88em;font-weight:600}\n' +
-      '.nova-t-stat{display:inline-flex;align-items:center;gap:.25em}\n' +
-      '.nova-t-stat svg{width:1.05em!important;height:1.05em!important;flex-shrink:0}\n' +
+      '.nova-t-card__footer{display:flex;align-items:center;justify-content:space-between;font-size:.9em;opacity:.8;border-top:1px solid rgba(255,255,255,0.08);padding-top:.6em;margin-top:.3em}\n' +
+      '.nova-t-card.focus .nova-t-card__footer{opacity:0.95;border-top-color:rgba(255,255,255,0.15)}\n' +
+      '.nova-t-card__info{display:flex;align-items:center;gap:.9em}\n' +
+      '.nova-t-card__stats{display:flex;align-items:center;gap:1.1em}\n' +
+      '.nova-t-stat{display:inline-flex;align-items:center;gap:.3em;font-weight:600}\n' +
+      '.nova-t-stat svg{width:1.1em!important;height:1.1em!important;max-width:1.1em!important;max-height:1.1em!important;flex-shrink:0!important}\n' +
       '.nova-t-stat--seeds{color:#4ade80}\n' +
       '.nova-t-stat--peers{color:#f87171}\n' +
-      '.nova-t-size{font-size:.95em;opacity:.7}\n' +
-      
-      '@media screen and (max-width:580px){\n' +
-      '  .nova-t-card__thumb{width:7em;height:4.4em}\n' +
-      '}\n' +
+      '.nova-t-size{font-size:1.05em;font-weight:700;padding:.2em .55em;border-radius:.35em;background:rgba(255,255,255,0.12);line-height:1}\n' +
       '.torrent-item{display:none!important}\n';
 
     var style = document.createElement('style');
@@ -88,47 +82,18 @@
     try { return Lampa.TMDB.image('t/p/w1280' + path); } catch (e) { return ''; }
   }
 
-  function parseTorrentMeta(rawTitle) {
+  function parseSeasonEpisode(rawTitle) {
     var title = String(rawTitle || '');
-    var seasonNum = '';
-    var quality = 'HD';
-
     var sMatch = title.match(/\[(\d{1,2})x(\d{1,2}(?:-\d{1,2})?)\s*(?:из\s*\d+)?\]/i) ||
                  title.match(/сезон\s*[:\s]*(\d+).*?сери[ия]\s*[:\s]*(\d+(?:-\d+)?)/i);
     if (sMatch) {
-      seasonNum = 'S' + sMatch[1] + ' \u00b7 ' + sMatch[2];
-    } else {
-      var sOnly = title.match(/сезон\s*[:\s]*(\d+)/i) || title.match(/\bS(\d{1,2})\b/i);
-      if (sOnly) seasonNum = 'Сезон ' + sOnly[1];
+      return 'S' + sMatch[1] + ' \u00b7 ' + sMatch[2];
     }
-
-    if (/2160|4k|uhd/i.test(title)) quality = '4K';
-    else if (/1080|full\s*hd|fhd/i.test(title)) quality = '1080p';
-    else if (/720|hd/i.test(title)) quality = '720p';
-    else if (/camrip|telesync|ts/i.test(title)) quality = 'TS';
-
-    var metaList = [];
-    var voices = [
-      'HDRezka', 'LostFilm', 'Red Head Sound', 'RHS', 'NewComers', 'TVShows', 
-      'Кубик в Кубе', 'ViruseProject', 'LE-Production', 'LineFilm', 'Яроцкий', 
-      'DniproFilm', 'UaFlix', 'BaibaKo', 'AlexFilm', 'Jaskier', 'ColdFilm', 'Дубляж', 'MVO', 'DVO', 'VO'
-    ];
-
-    voices.forEach(function (v) {
-      var regex = new RegExp('(^|[^a-zA-Zа-яА-Я0-9])' + v + '([^a-zA-Zа-яА-Я0-9]|$)', 'i');
-      if (regex.test(title)) metaList.push(v);
-    });
-
-    if (/hdr10\+|hdr10|hdr|dolby\s*vision|dv/i.test(title)) {
-      if (/dolby\s*vision|dv/i.test(title)) metaList.push('Dolby Vision');
-      else metaList.push('HDR');
+    var sOnly = title.match(/сезон\s*[:\s]*(\d+)/i) || title.match(/\bS(\d{1,2})\b/i);
+    if (sOnly) {
+      return 'Сезон ' + sOnly[1];
     }
-
-    return {
-      seasonNum: seasonNum,
-      quality: quality,
-      metaText: metaList.join(' \u00b7 ')
-    };
+    return '';
   }
 
   function buildHero(movie) {
@@ -194,6 +159,16 @@
     var origHead = explorer.find('.explorer__files-head');
     var toolbar = $('<div class="nova-t-toolbar"></div>');
 
+    // Кнопка поиска / уточнить
+    var searchBtn = origHead.find('.filter--search, .filter--filter_search, .torrent-filter--search').first();
+    if (searchBtn.length) {
+      var sText = searchBtn.find('div:not(.hide)').last().text().trim() || searchBtn.text().trim() || (movie && (movie.title || movie.name)) || 'Поиск';
+      var sChip = $('<div class="nova-t-chip selector">' + ICON.search + '<span>' + sText + '</span></div>');
+      sChip.on('hover:enter', function () { searchBtn.trigger('hover:enter'); });
+      toolbar.append(sChip);
+    }
+
+    // Сортировка и Фильтр
     origHead.find('.filter--sort, .filter--filter').each(function () {
       var btn = $(this);
       var isSort = btn.hasClass('filter--sort');
@@ -220,34 +195,38 @@
       var peers = item.find('.torrent-item__grabs').text().trim() || '0';
       var tracker = item.find('.torrent-item__tracker').text().trim();
       var date = item.find('.torrent-item__date').text().trim();
+      var bitrate = item.find('.torrent-item__bitrate').text().trim();
 
-      var parsed = parseTorrentMeta(rawTitle);
-      var badgeNum = parsed.seasonNum || (idx < 10 ? '0' + idx : '' + idx);
+      // Клонируем оригинальные бейджи раздачи из нативной Lampa
+      var origDetails = item.find('.torrent-item__details, .torrent-serial, .torrent-item__spec');
+      var clonedTags = '';
+      if (origDetails.length) {
+        clonedTags = origDetails.clone().html();
+      }
 
-      var metaParts = [];
-      if (tracker) metaParts.push(tracker);
-      if (date) metaParts.push(date);
-      if (parsed.metaText) metaParts.push(parsed.metaText);
-
-      var metaLine = metaParts.map(function(p){ return '<span>' + p + '</span>'; }).join('<span class="nova-t-dot">\u25cf</span>');
+      var seasonStr = parseSeasonEpisode(rawTitle);
+      var badgeNum = seasonStr || (idx < 10 ? '0' + idx : '' + idx);
 
       var card = $('<div class="nova-t-card selector">' +
         '<div class="nova-t-card__thumb">' +
         '<img src="' + thumbBg + '" alt="">' +
         '<div class="nova-t-card__num"><span>' + badgeNum + '</span></div>' +
         '</div>' +
-        '<div class="nova-t-card__body">' +
+        '<div class="nova-t-card__main">' +
         '<div class="nova-t-card__title">' + rawTitle + '</div>' +
-        '<div class="nova-t-card__meta">' + metaLine + '</div>' +
-        '<div class="nova-t-card__line"></div>' +
+        (clonedTags ? '<div class="nova-t-card__tags">' + clonedTags + '</div>' : '') +
+        '<div class="nova-t-card__footer">' +
+        '<div class="nova-t-card__info">' +
+        (tracker ? '<span>' + tracker + '</span>' : '') +
+        (date ? '<span>' + date + '</span>' : '') +
+        (bitrate ? '<span>' + bitrate + '</span>' : '') +
         '</div>' +
-        '<div class="nova-t-card__side">' +
-        '<span class="nova-t-badge">' + parsed.quality + '</span>' +
         '<div class="nova-t-card__stats">' +
         '<div class="nova-t-stat nova-t-stat--seeds">' + ICON.seed + '<span>' + seeds + '</span></div>' +
         '<div class="nova-t-stat nova-t-stat--peers">' + ICON.peer + '<span>' + peers + '</span></div>' +
-        '</div>' +
         '<div class="nova-t-size">' + size + '</div>' +
+        '</div>' +
+        '</div>' +
         '</div>' +
         '</div>');
 
