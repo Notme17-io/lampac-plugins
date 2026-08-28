@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v19';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v22';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="70" font-size="58" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="136" font-size="58" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v19_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v22_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -589,7 +589,7 @@
             '.card__clean-year{position:static!important;padding:0.12em 0.32em!important;font-size:0.68em!important;font-weight:700!important;color:rgba(255,255,255,0.9)!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;text-align:center!important;white-space:nowrap!important}\n' +
             
             /* Качество строго внутри обложки */
-            '.card__clean-quality{position:absolute!important;left:0.35em!important;bottom:0.35em!important;z-index:10!important;padding:0.12em 0.32em!important;font-size:0.7em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
+            '.card__clean-quality{position:absolute!important;left:0.45em!important;bottom:0.45em!important;z-index:10!important;padding:0.15em 0.38em!important;font-size:0.74em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             
             /* Оценка строго внутри обложки */
             '.card__clean-votes{position:absolute!important;right:0.35em!important;top:0.35em!important;bottom:auto!important;z-index:10!important;display:flex!important;align-items:center!important;padding:0.12em 0.32em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;line-height:1!important}\n' +
@@ -599,8 +599,8 @@
             '.full-title-logo{display:block!important;max-height:3em!important;max-width:85%!important;width:auto!important;height:auto!important;object-fit:contain!important;filter:drop-shadow(0 0.08em 0.35em rgba(0,0,0,0.75))!important}\n' +
             '.full-start-new__title.has-clean-logo, .full-start__title.has-clean-logo{min-height:3.2em!important;display:flex!important;align-items:center!important}\n' +
             
-            /* Карточка фильма: отступы и фиксированный размер плашки */
-            '.full-start-new__poster .card__clean-type, .full-start__poster .card__clean-type{position:absolute!important;left:0.4em!important;top:-0.3em!important;width:auto!important;display:inline-block!important}\n' +
+            /* Бейдж Фильм/Сериал внутри постера: более светлый и прозрачный фон */
+            '.full-start-new__poster .card__clean-type, .full-start__poster .card__clean-type{position:absolute!important;left:0.45em!important;top:0.45em!important;width:auto!important;display:inline-block!important;background:rgba(255,255,255,0.18)!important;border:1px solid rgba(255,255,255,0.25)!important;border-radius:0.3em!important;padding:0.18em 0.42em!important;box-shadow:0 0.12em 0.45em rgba(0,0,0,0.3)!important;backdrop-filter:blur(6px)!important;margin:0!important}\n' +
             '.full-start-new__poster, .full-start__poster{overflow:visible!important}\n' +
             
             '.detail-icon-svg{display:inline-flex!important;width:1.25em!important;height:1.25em!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;color:#fff!important;opacity:0.95!important}\n' +
@@ -685,8 +685,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.3.2',
-        description: 'Классический стиль карточек, аккуратные внутренние бейджи, логотипы TMDB'
+        version: '1.3.5',
+        description: 'Классический стиль карточек, светлый прозрачный бейдж в постере, аккуратные бейджи и логотипы TMDB'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
