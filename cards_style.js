@@ -2,7 +2,7 @@
     'use strict';
 
     var KP_API_URL = 'https://kinopoiskapiunofficial.tech/';
-    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v27';
+    var QUALITY_CACHE_KEY = 'cards_style_q_cache_v24';
     var QUALITY_API_DOMAIN = 'jr.maxvol.pro';
 
     var CARD_TMDB_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><text x="0" y="70" font-size="58" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">TM</text><text x="0" y="136" font-size="58" font-weight="bold" fill="currentColor" textLength="150" lengthAdjust="spacingAndGlyphs">DB</text></svg>';
@@ -66,7 +66,7 @@
         }
     };
 
-    function getPersistentCacheKey(source) { return 'cards_style_v27_' + source; }
+    function getPersistentCacheKey(source) { return 'cards_style_v24_' + source; }
     function loadPersistentCache(source) {
         var stored = null;
         try { stored = Lampa.Storage.get(getPersistentCacheKey(source), null); } catch (e) { logErr(e); }
@@ -206,35 +206,17 @@
         });
     }
 
-    // Агрессивная проверка на фейки и экранки
-    function isStrictCam(text) {
-        return /camrip|\bcam\b|\bts\b|телесинк|telesync|telecine|hdcam|hd-cam|hdts|hd-ts|pdvd|korsar|корсар/i.test(text);
-    }
-
     function normalizeQuality(val) {
-        var text = String(val || '').trim();
-        if (!text) return null;
-        
-        if (isStrictCam(text)) return 'TS';
-        
-        if (/2160|4k|uhd/i.test(text)) return '4K';
-        if (/web-?dl/i.test(text)) return 'WEBDL';
-        if (/web-?rip/i.test(text)) return 'WEBRIP';
-        if (/bd-?rip|bluray|blu-ray|hdrip/i.test(text)) return 'BDRip';
-        if (/hdtv/i.test(text)) return 'HDTV';
-        if (/dvd-?rip|dvd/i.test(text)) return 'DVDRip';
-        if (/1080|full\s*hd|fhd/i.test(text)) return '1080p';
+        var text = String(val || '').toLowerCase();
+        if (/camrip|телесинк|telesync|telecine|(^|[^a-zа-яё])ts([^a-zа-яё]|$)|(^|[^а-яё])тс([^а-яё]|$)/i.test(text)) return 'TS';
+        if (/2160|4k|uhd/.test(text)) return '4K';
+        if (/1080|full\s*hd|fhd/.test(text)) return '1080p';
         if (/720|(^|[^a-zа-яё])hd([^a-zа-яё]|$)/.test(text)) return '720p';
         if (/480|360|(^|[^a-zа-яё])sd([^a-zа-яё]|$)/.test(text)) return 'SD';
-        return text.toUpperCase();
+        return null;
     }
 
     function fetchQuality(item, callback) {
-        if (item && item.quality) {
-            var nq = normalizeQuality(item.quality);
-            if (nq) { callback(nq); return; }
-        }
-
         var cacheKey = 'q_' + item.id;
         var cached = ratingCache.get('quality', cacheKey);
         if (cached) { callback(cached.quality); return; }
@@ -253,44 +235,30 @@
                 var releases = (data && data.Results) || [];
                 var maxRes = 0;
                 var hasCleanDigital = false;
-                var digitalType = null;
                 var hasTS = false;
 
                 for (var i = 0; i < releases.length; i++) {
                     var title = (releases[i].Title || '').toLowerCase();
-                    
-                    // Если в названии торрента есть признак экранки - это 100% TS, 
-                    // игнорируем любые приписки 4K или WEBDL в этой раздаче
-                    var isCurrentTS = isStrictCam(title);
-                    var isDigital = /web-?dl|web-?rip|bdrip|bluray|hdrip|hdtv|dvd-?rip|dvd/i.test(title) && !isCurrentTS;
+                    var isCurrentTS = /camrip|телесинк|telesync|telecine|(^|[^a-zа-яё])ts([^a-zа-яё]|$)|(^|[^а-яё])тс([^а-яё]|$)/i.test(title);
+                    var isDigital = /web-?dl|web-?rip|bdrip|bluray|hdrip/i.test(title) && !isCurrentTS;
 
                     if (isCurrentTS) hasTS = true;
-                    if (isDigital) {
-                        hasCleanDigital = true;
-                        if (!digitalType) {
-                            if (/web-?dl/i.test(title)) digitalType = 'WEBDL';
-                            else if (/web-?rip/i.test(title)) digitalType = 'WEBRIP';
-                            else if (/bdrip|bluray/i.test(title)) digitalType = 'BDRip';
-                            else if (/hdtv/i.test(title)) digitalType = 'HDTV';
-                            else if (/dvd-?rip|dvd/i.test(title)) digitalType = 'DVDRip';
-                        }
-                    }
+                    if (isDigital) hasCleanDigital = true;
 
                     var r = (releases[i].info && releases[i].info.quality) || 0;
-                    if (r > maxRes && !isCurrentTS) maxRes = r;
+                    if (r > maxRes) maxRes = r;
                 }
 
-                // Логика выбора итогового бейджа
                 if (hasTS && !hasCleanDigital) {
                     quality = 'TS';
                 } else if (maxRes >= 2160) {
                     quality = '4K';
-                } else if (digitalType) {
-                    quality = digitalType;
                 } else if (maxRes >= 1080) {
                     quality = '1080p';
                 } else if (maxRes >= 720) {
                     quality = '720p';
+                } else if (maxRes > 0) {
+                    quality = 'SD';
                 } else if (hasTS) {
                     quality = 'TS';
                 }
@@ -619,7 +587,7 @@
             '.card__clean-top-left{position:absolute!important;left:0.35em!important;top:0.35em!important;z-index:10!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:2px!important;width:fit-content!important}\n' +
             '.card__clean-type{position:static!important;padding:0.18em 0.42em!important;font-size:0.75em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;letter-spacing:0.03em!important;text-transform:uppercase!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;white-space:nowrap!important}\n' +
             '.card__clean-year{position:static!important;padding:0.12em 0.32em!important;font-size:0.68em!important;font-weight:700!important;color:rgba(255,255,255,0.9)!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;text-align:center!important;white-space:nowrap!important}\n' +
-            '.card__clean-quality{position:absolute!important;left:0.45em!important;bottom:0.45em!important;z-index:10!important;padding:0.15em 0.38em!important;font-size:0.74em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;text-transform:uppercase!important}\n' +
+            '.card__clean-quality{position:absolute!important;left:0.45em!important;bottom:0.45em!important;z-index:10!important;padding:0.15em 0.38em!important;font-size:0.74em!important;font-weight:700!important;color:#fff!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;line-height:1!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important}\n' +
             '.card__clean-votes{position:absolute!important;right:0.35em!important;top:0.35em!important;bottom:auto!important;z-index:10!important;display:flex!important;align-items:center!important;padding:0.12em 0.32em!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.25em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;line-height:1!important}\n' +
             '.card__clean-votes .vote-num{font-size:0.68em!important;font-weight:700!important;color:#fff!important}\n' +
             
@@ -634,7 +602,6 @@
             '  line-height: inherit!important;\n' +
             '}\n' +
             
-            /* Возврат дефолтной иконки Lampa без обнуления background/box-shadow/before */
             '.full-title-logo{display:block!important;max-height:3em!important;max-width:85%!important;width:auto!important;height:auto!important;object-fit:contain!important;filter:drop-shadow(0 0.08em 0.35em rgba(0,0,0,0.75))!important}\n' +
             '.full-start-new__title.has-clean-logo, .full-start__title.has-clean-logo{min-height:3.2em!important;display:flex!important;align-items:center!important}\n' +
             '.full-start-new__poster .card__clean-type, .full-start__poster .card__clean-type{position:absolute!important;left:0.45em!important;top:0.45em!important;width:auto!important;display:inline-block!important;background:rgba(0,0,0,0.5)!important;border:1px solid rgba(255,255,255,0.18)!important;border-radius:0.3em!important;padding:0.18em 0.42em!important;box-shadow:0 0.12em 0.35em rgba(0,0,0,0.45)!important;backdrop-filter:blur(5px)!important;margin:0!important;z-index:10!important}\n' +
@@ -648,7 +615,7 @@
             '.detail-icon-svg{display:inline-flex!important;width:1.25em!important;height:1.25em!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;color:#fff!important;opacity:0.95!important}\n' +
             '.detail-icon-svg svg{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}\n' +
             '.detail-icon-svg--tmdb{transform:translateY(0.5px)!important}\n' +
-            '.clean-detail-quality{margin-left:0!important;text-transform:uppercase!important}\n' +
+            '.clean-detail-quality{margin-left:0!important}\n' +
             
             /* Дистанции между оценками и статусами */
             '.full-start-new__rate-line, .full-start__rate-line{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0.25em!important}\n' +
@@ -728,8 +695,8 @@
 
     var manifest = {
         name: 'Cards Style',
-        version: '1.6.7',
-        description: 'Стиль карточек, расширенное качество с агрессивным фильтром экранок, единый формат следующей серии'
+        version: '1.6.4',
+        description: 'Стиль карточек, единый формат следующей серии'
     };
 
     if (Array.isArray(Lampa.Manifest.plugins)) Lampa.Manifest.plugins.push(manifest);
