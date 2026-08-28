@@ -22,16 +22,15 @@
       '.nova-t-hero__genres{font-size:.95em;color:rgba(255,255,255,0.65);margin-bottom:.6em}\n' +
       '.nova-t-hero__descr{font-size:.95em;line-height:1.4;color:rgba(255,255,255,0.75);max-height:8em;overflow-y:auto}\n' +
       
-      /* Стилизация оригинального тулбара */
+      /* Стилизация оригинального тулбара (сохраняем иконки как есть в Lampa) */
       'body.nova-torrent-scope .explorer__files-head{display:flex!important;align-items:center!important;gap:.8em!important;margin-bottom:1.2em!important;flex-wrap:wrap!important;background:none!important;padding:0!important}\n' +
       'body.nova-torrent-scope .explorer__files-head .selector{display:inline-flex!important;align-items:center!important;gap:.6em!important;padding:.5em 1.1em!important;border-radius:2em!important;background:rgba(255,255,255,0.08)!important;color:#fff!important;font-size:1em!important;cursor:pointer!important;white-space:nowrap!important;border:none!important}\n' +
       'body.nova-torrent-scope .explorer__files-head .selector.focus{background:rgba(255,255,255,0.16)!important;box-shadow:inset 0 0 0 2px #fff!important;color:#fff!important}\n' +
       
-      /* Стилизация нативных карточек торрентов без потери информации */
+      /* Карточки торрентов с мини-баннером слева */
       'body.nova-torrent-scope .torrent-item{display:block!important;position:relative!important;padding:1.1em 1.3em!important;padding-left:7.2em!important;border-radius:.9em!important;background:rgba(255,255,255,0.05)!important;margin-bottom:.8em!important;color:#fff!important;box-sizing:border-box!important;border:none!important}\n' +
       'body.nova-torrent-scope .torrent-item.focus{background:rgba(255,255,255,0.14)!important;box-shadow:inset 0 0 0 2px #fff!important;color:#fff!important}\n' +
       
-      /* Превью-баннер слева на карточке */\n' +
       'body.nova-torrent-scope .torrent-item .nova-t-card__thumb{position:absolute!important;left:1.1em!important;top:1.1em!important;width:5.2em!important;height:5.2em!important;border-radius:.5em!important;overflow:hidden!important;background:rgba(0,0,0,0.45)!important}\n' +
       'body.nova-torrent-scope .torrent-item .nova-t-card__thumb img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.75}\n' +
       'body.nova-torrent-scope .torrent-item .nova-t-card__num{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:1.1em;font-weight:700;color:#fff;text-shadow:0 .05em .2em rgba(0,0,0,.9);z-index:2}\n' +
