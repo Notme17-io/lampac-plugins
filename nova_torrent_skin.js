@@ -6,7 +6,8 @@
 
   var ICON = {
     search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4" stroke-linecap="round"/></svg>',
-    chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'
   };
 
   function addCSS() {
@@ -16,7 +17,7 @@
       'body.nova-torrent-scope .explorer__files{width:100%!important;left:0!important;padding:1.2em 2em!important}\n' +
       'body.nova-torrent-scope .explorer__files-head{display:none!important}\n' +
       
-      /* Верхний баннер Hero */
+      /* Верхний баннер Hero (полное описание без обрезки) */
       '.nova-t-hero{position:relative;overflow:hidden;border-radius:1.2em;margin-bottom:1.5em;background:rgba(255,255,255,0.06);min-height:12em}\n' +
       '.nova-t-hero__bg{position:absolute;top:0;left:0;right:0;bottom:0}\n' +
       '.nova-t-hero__bg img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}\n' +
@@ -27,9 +28,9 @@
       '.nova-t-hero__logo{display:block;max-height:2.1em;max-width:70%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 0.04em 0.12em rgba(0,0,0,0.55))}\n' +
       '.nova-t-hero__meta{display:flex;flex-wrap:wrap;align-items:center;font-size:1.1em;margin-bottom:.7em;color:#fff;text-shadow:0 .06em .5em rgba(0,0,0,.8)}\n' +
       '.nova-t-hero__meta > *{margin:0 .7em .3em 0;opacity:.8}\n' +
-      '.nova-t-hero__descr{font-size:1.05em;line-height:1.45;color:#fff;opacity:.75;max-height:2.9em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-shadow:0 .06em .5em rgba(0,0,0,.8)}\n' +
+      '.nova-t-hero__descr{font-size:1.05em;line-height:1.45;color:#fff;opacity:.75;max-height:none!important;overflow:visible!important;display:block!important;text-shadow:0 .06em .5em rgba(0,0,0,.8)}\n' +
       
-      /* Панель селекторов под баннером */
+      /* Селекторы под баннером */
       '.nova-t-toolbar{display:flex;align-items:center;gap:.7em;margin-bottom:1.2em;flex-wrap:wrap}\n' +
       '.nova-t-toolbar__label{font-size:.95em;letter-spacing:.12em;text-transform:uppercase;opacity:.45;margin:0 .3em 0 0;color:#fff}\n' +
       '.nova-t-chip{display:inline-flex;align-items:center;gap:.5em;padding:.45em 1.1em;border-radius:2em;background:rgba(255,255,255,0.07);color:#fff;font-size:1.05em;cursor:pointer;white-space:nowrap}\n' +
@@ -41,34 +42,36 @@
       'body.nova-torrent-scope .torrent-item.focus{background:rgba(255,255,255,0.14)!important;box-shadow:inset 0 0 0 2px #fff!important}\n' +
       'body.nova-torrent-scope .nova-t-item-wrap{display:flex;align-items:stretch;width:100%}\n' +
       
-      /* Левый фиксированный постер */
-      'body.nova-torrent-scope .nova-t-thumb{position:relative;width:6.8em;min-width:6.8em;height:9.6em;max-height:9.6em;flex-shrink:0;background:rgba(0,0,0,0.35);overflow:hidden;align-self:flex-start}\n' +
+      /* Баннер раздачи (на всю высоту блока, фиксированная ширина) */
+      'body.nova-torrent-scope .nova-t-thumb{position:relative;width:6em;min-width:6em;align-self:stretch;flex-shrink:0;background:rgba(0,0,0,0.35);overflow:hidden}\n' +
       'body.nova-torrent-scope .nova-t-thumb img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}\n' +
       'body.nova-torrent-scope .nova-t-thumb--loaded img{opacity:1}\n' +
       
-      /* Плашка в правом верхнем углу постера */
-      'body.nova-torrent-scope .nova-t-thumb__overlay{position:absolute;top:0.4em;right:0.4em;bottom:auto;left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:0.1em;background:rgba(10,11,17,0.85);border:1px solid rgba(255,255,255,0.2);padding:0.2em 0.4em;border-radius:0.35em;line-height:1.15;backdrop-filter:blur(4px);z-index:3;text-align:right}\n' +
-      'body.nova-torrent-scope .nova-t-thumb__s{font-size:0.75em;font-weight:700;color:#fff;white-space:nowrap}\n' +
-      'body.nova-torrent-scope .nova-t-thumb__e{font-size:0.7em;font-weight:600;color:rgba(255,255,255,0.85);white-space:nowrap}\n' +
+      /* Плашка Сезон/Серии (в правом верхнем углу постера) */
+      'body.nova-torrent-scope .nova-t-thumb__overlay{position:absolute!important;top:0.35em!important;right:0.35em!important;bottom:auto!important;left:auto!important;display:flex;flex-direction:column;align-items:flex-end;gap:0.1em;background:rgba(10,11,17,0.85);border:1px solid rgba(255,255,255,0.2);padding:0.15em 0.35em;border-radius:0.3em;line-height:1.15;backdrop-filter:blur(4px);z-index:3;text-align:right}\n' +
+      'body.nova-torrent-scope .nova-t-thumb__s{font-size:0.68em;font-weight:700;color:#fff;white-space:nowrap}\n' +
+      'body.nova-torrent-scope .nova-t-thumb__e{font-size:0.62em;font-weight:600;color:rgba(255,255,255,0.85);white-space:nowrap}\n' +
       
       /* Контентная часть раздачи */
-      'body.nova-torrent-scope .nova-t-item-main{flex-grow:1;padding:0.9em 1.2em;min-width:0;display:flex;flex-direction:column;justify-content:center}\n' +
-      'body.nova-torrent-scope .torrent-item__title{font-size:1.15em!important;font-weight:600!important;line-height:1.45!important;margin-bottom:.55em!important;word-break:break-word!important;white-space:normal!important;color:#fff!important;height:auto!important;max-height:none!important;overflow:visible!important}\n' +
-      'body.nova-torrent-scope .torrent-item__details{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:.45em!important;margin-bottom:.55em!important}\n' +
+      'body.nova-torrent-scope .nova-t-item-main{flex-grow:1;padding:0.7em 1.1em;min-width:0;display:flex;flex-direction:column;justify-content:center}\n' +
+      'body.nova-torrent-scope .torrent-item__title{font-size:1.1em!important;font-weight:600!important;line-height:1.4!important;margin-bottom:.4em!important;word-break:break-word!important;white-space:normal!important;color:#fff!important;height:auto!important;max-height:none!important;overflow:visible!important}\n' +
+      'body.nova-torrent-scope .torrent-item__details{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:.35em!important;margin-bottom:.4em!important}\n' +
       
-      /* Плашка Сезон • Серии рядом с тегами */
-      'body.nova-torrent-scope .nova-t-inline-serial{display:inline-flex;align-items:center;padding:0.2em 0.55em;border-radius:0.35em;background:rgba(255,255,255,0.12);font-size:0.85em;font-weight:600;color:#fff;margin-right:0.4em}\n' +
-      'body.nova-torrent-scope .torrent-serial{display:none!important}\n' +
+      /* Уменьшенный блок Сезон / Серии */
+      'body.nova-torrent-scope .torrent-serial{display:inline-flex!important;align-items:stretch!important;border-radius:0.3em!important;overflow:hidden!important;margin-right:0.35em!important;line-height:1!important}\n' +
+      'body.nova-torrent-scope .torrent-serial__season{font-size:0.78em!important;font-weight:700!important;padding:0.3em 0.45em!important;background:rgba(255,255,255,0.2)!important;color:#fff!important}\n' +
+      'body.nova-torrent-scope .torrent-serial__episode{font-size:0.78em!important;font-weight:600!important;padding:0.3em 0.45em!important;background:rgba(0,0,0,0.4)!important;color:rgba(255,255,255,0.85)!important}\n' +
       
-      'body.nova-torrent-scope .torrent-item__size{font-size:1.05em!important;font-weight:700!important;padding:.2em .55em!important;border-radius:.35em!important;background:rgba(255,255,255,0.12)!important;color:#fff!important;margin-left:auto!important}\n' +
+      'body.nova-torrent-scope .torrent-item__size{font-size:0.95em!important;font-weight:700!important;padding:.15em .45em!important;border-radius:.3em!important;background:rgba(255,255,255,0.12)!important;color:#fff!important;margin-left:auto!important}\n' +
       
       /* Нижняя инфо-строка */
-      'body.nova-torrent-scope .nova-t-item-main > div:last-child{display:flex;align-items:center;flex-wrap:wrap;gap:1.2em;border-top:1px solid rgba(255,255,255,0.08);padding-top:.55em;margin-top:.35em;font-size:.9em;opacity:.8;color:#fff!important}\n' +
+      'body.nova-torrent-scope .nova-t-item-main > div:last-child{display:flex;align-items:center;flex-wrap:wrap;gap:1.1em;border-top:1px solid rgba(255,255,255,0.08);padding-top:.45em;margin-top:.25em;font-size:.85em;opacity:.8;color:#fff!important}\n' +
       'body.nova-torrent-scope .torrent-item.focus .nova-t-item-main > div:last-child{opacity:1;border-top-color:rgba(255,255,255,0.15)}\n' +
       'body.nova-torrent-scope .torrent-item__seeds, body.nova-torrent-scope .torrent-item__grabs, body.nova-torrent-scope .torrent-item__peers{color:#fff!important;font-weight:600!important}\n' +
       
-      /* Корректное позиционирование стандартного индикатора просмотра */
-      'body.nova-torrent-scope .torrent-item__viewed, body.nova-torrent-scope .torrent-item > .viewed{position:absolute!important;top:0.4em!important;left:0.4em!important;z-index:4!important}\n';
+      /* Индикатор просмотра в виде Play */
+      'body.nova-torrent-scope .torrent-item__viewed, body.nova-torrent-scope .torrent-item > .viewed{position:absolute!important;top:0.35em!important;left:0.35em!important;z-index:4!important;background:rgba(0,0,0,0.65)!important;border-radius:50%!important;width:1.35em!important;height:1.35em!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;border:none!important}\n' +
+      'body.nova-torrent-scope .torrent-item__viewed svg, body.nova-torrent-scope .torrent-item > .viewed svg{width:0.75em!important;height:0.75em!important;color:#fff!important;fill:currentColor!important;display:block!important}\n';
 
     var style = document.createElement('style');
     style.id = 'nova-torrent-skin-css';
@@ -205,24 +208,18 @@
         if (img.complete) thumb.addClass('nova-t-thumb--loaded');
       }
 
-      // Плашка в правом верхнем углу баннера
+      // Плашка сезона/серии в правом верхнем углу баннера
       if (serial.season || serial.episode) {
         var badge = $('<div class="nova-t-thumb__overlay"></div>');
         if (serial.season) badge.append('<span class="nova-t-thumb__s">Сезон ' + serial.season + '</span>');
         if (serial.episode) badge.append('<span class="nova-t-thumb__e">Сери' + (serial.episode.indexOf('-') !== -1 ? 'и ' : 'я ') + serial.episode + '</span>');
         thumb.append(badge);
       }
-      
-      // Плашка формата "Сезон X • Серии Y-Z" в строке деталей
-      if (serial.season || serial.episode) {
-        var inlineText = '';
-        if (serial.season) inlineText += 'Сезон ' + serial.season;
-        if (serial.episode) inlineText += (inlineText ? ' • ' : '') + 'Серии ' + serial.episode;
-        
-        var details = item.find('.torrent-item__details');
-        if (details.length) {
-          details.prepend('<div class="nova-t-inline-serial">' + inlineText + '</div>');
-        }
+
+      // Замена точки просмотра на иконку Play
+      var viewed = item.find('.torrent-item__viewed, .viewed');
+      if (viewed.length) {
+        viewed.html(ICON.play);
       }
 
       main.append(item.contents());
